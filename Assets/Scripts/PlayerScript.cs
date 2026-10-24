@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 namespace playerCode
@@ -61,7 +62,8 @@ namespace playerCode
                     invincibilityFramesRemaining -= Time.deltaTime; //then tick the timer down
                 }
             }
-
+            
+            //tests confirm that the code is skipping straight from 0 to 2
         }
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -131,7 +133,8 @@ namespace playerCode
         }
         public void newLevel()
         {
-            currentLevel = currentLevel + 1; 
+            currentLevel++; //this needs to be the only time that the level is updated.
+            Debug.Log(currentLevel);
             transform.position = database.respawnLocations[currentLevel]; // how out of bounds? database.respawnLocations 0 and 1 should be fine??
         }
         private void OnTriggerEnter2D(Collider2D collision) //remember that this code assumes that the HurtBox isn't a trigger, but the turn box is!

@@ -63,7 +63,7 @@ public class GameManagerScript : MonoBehaviour
     public void endLevelandLoadNextOne()
     {
         Debug.Log("End Game");
-        SceneManager.LoadScene("Level 2", LoadSceneMode.Single);
+        SceneManager.LoadScene("Level 2", LoadSceneMode.Single); // I need to write a function to fix this...
         
 
     }

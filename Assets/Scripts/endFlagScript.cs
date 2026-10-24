@@ -18,7 +18,8 @@ public class endFlagScript : MonoBehaviour
     {
         if(other.CompareTag("PlayerTag"))
         {
-            nextLevel.Invoke();
+            nextLevel.Invoke(); //how many times does this run? what if this is being... added twice?
+            //fixed the problem here! The code was connecting to the flag twice!
         }
     }
    

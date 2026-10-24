@@ -2176,6 +2176,14 @@ PrefabInstance:
       propertyPath: nextLevel.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1723238279}
+    - target: {fileID: 3878041690976062644, guid: 4e03c66c8f78d384ebb18876d2ed6d68, type: 3}
+      propertyPath: nextLevel.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878041690976062644, guid: 4e03c66c8f78d384ebb18876d2ed6d68, type: 3}
+      propertyPath: nextLevel.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7173722731688556320, guid: 4e03c66c8f78d384ebb18876d2ed6d68, type: 3}
       propertyPath: m_Name
       value: End Flag
