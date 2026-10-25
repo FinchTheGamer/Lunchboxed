@@ -90,5 +90,10 @@ public class GameManagerScript : MonoBehaviour
     {
         Coins++;
     }
+
+    public void DebugInstantDeath()
+    {
+        Lives = 0;
+    }
 }
     

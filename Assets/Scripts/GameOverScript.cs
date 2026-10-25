@@ -11,6 +11,7 @@ public class GameOverScript : MonoBehaviour
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
+        DontDestroyOnLoad(gameObject);
     }
     public void runGameOver()
     {
