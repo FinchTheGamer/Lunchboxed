@@ -4,9 +4,16 @@ public class Key : CollectableObjectScript
 {
     
     [SerializeField] private DatabaseScriptableObject database;
+
+    string thisKey = "00000000";
+    public delegate void KeyDelegate(string valueToSend);
+
+    public event KeyDelegate keyCollected;
+    
     private void Start()
     {
-        Debug.Log("uhhh");
+        KeyDelegate returnKeyData = (thisKey) => { };
+
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); // change this
 
@@ -21,6 +28,7 @@ public class Key : CollectableObjectScript
         type = "Key";
         typeIndex = 0;
         setSpriteViaIndex(0);
+        
     }
 
     public void KeyCollected()
@@ -28,4 +36,14 @@ public class Key : CollectableObjectScript
         Debug.Log("What key?");
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        collectThisItem();
+    }
+
+    protected override void collectThisItem()
+    {
+        Debug.Log("This ran");
+        keyCollected?.Invoke(thisKey);
+    }
 }

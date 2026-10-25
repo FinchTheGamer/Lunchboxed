@@ -20,7 +20,9 @@ namespace playerCode
         private bool isInvincibile = false;
         [SerializeField] private float invincibilityFramesRemaining = 0; //defaults to 1
         public GameManagerScript GAME;
+        
         [SerializeField] private DatabaseScriptableObject database;
+
         private int currentLevel = 0;
 
         public int CurrentLevel //don't need to do it manually but I did it anyways
@@ -38,9 +40,12 @@ namespace playerCode
         
         void Start()
         {
-
+            
             DontDestroyOnLoad(gameObject);
             GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
+
+            Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
+            keyScript.keyCollected += CollectAKeyHandler;
 
             speed = 5;
             jumpStrength = 7;
@@ -251,6 +256,12 @@ namespace playerCode
             playerRigidBody.linearVelocity = new Vector3(Convert.ToInt32(differenceOfX) * speed, Convert.ToInt32(differenceOfY) * speed, Convert.ToInt32(differenceOfZ) * speed); 
             //Ah! But that makes that zero!
             //instead, use these boolean to set a final number (dizzying amount of failed code and variables I used like once. I could reuse them!)
+        }
+
+        private void CollectAKeyHandler(string txt)
+        {
+            //txt should be the key so
+            Debug.Log(txt);
         }
     }
 }
