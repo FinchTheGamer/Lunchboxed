@@ -5,7 +5,7 @@ public class Key : CollectableObjectScript
     
     [SerializeField] private DatabaseScriptableObject database;
 
-    string thisKey = "00000000";
+    [SerializeField] string thisKey = "00000000";
     public delegate void KeyDelegate(string valueToSend);
 
     public event KeyDelegate keyCollected;
@@ -45,5 +45,6 @@ public class Key : CollectableObjectScript
     {
         Debug.Log("This ran");
         keyCollected?.Invoke(thisKey);
+        gameObject.SetActive(false);
     }
 }

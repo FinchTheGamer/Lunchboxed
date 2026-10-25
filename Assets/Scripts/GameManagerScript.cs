@@ -68,10 +68,12 @@ public class GameManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene("Level " + (playerScript.CurrentLevel + 1), LoadSceneMode.Single); // I need to write a function to fix this... but how can I fix that
         }
-        catch(Exception e)
+        catch(IndexOutOfRangeException e)
         {
             Debug.Log(e);
             //the game should end
+            endGame();
+
         }
         
 

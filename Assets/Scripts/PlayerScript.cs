@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 namespace playerCode
@@ -17,12 +20,17 @@ namespace playerCode
         [SerializeField] private bool isTouchingGround = false;
         public UnityEvent takeDamage;
         public UnityEvent gameOver;
+
+        private bool isGameOver = false;
         private bool isInvincibile = false;
         [SerializeField] private float invincibilityFramesRemaining = 0; //defaults to 1
         public GameManagerScript GAME;
         
         [SerializeField] private DatabaseScriptableObject database;
 
+        private List<string> backpack = new List<string> { };
+
+        public List<string> Backpack {  get { return backpack; } }
         private int currentLevel = 0;
 
         public int CurrentLevel //don't need to do it manually but I did it anyways
@@ -62,7 +70,16 @@ namespace playerCode
         // Update is called once per frame
         void Update()
         {
-            movementHandler();
+            if (!isGameOver)
+            {
+                movementHandler();
+            }
+            if (isGameOver)
+            {
+                playerRigidBody.bodyType = RigidbodyType2D.Static;
+                playerAnimator.enabled = false;
+                playerSpriteRenderer.enabled = false;
+            }
             
             if (isInvincibile) // if the player is invincible
             {
@@ -196,7 +213,7 @@ namespace playerCode
         public void Die()
         {
             transform.position = database.respawnLocations[currentLevel];
-            
+            isGameOver = true;
             gameOver.Invoke();
         }
         private void recoil(Vector3 positionOfObjectThatYouHit)
@@ -262,6 +279,10 @@ namespace playerCode
         {
             //txt should be the key so
             Debug.Log(txt);
+            backpack.Add(txt);
         }
+        public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
+        
+
     }
 }
