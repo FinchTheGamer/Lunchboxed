@@ -5,7 +5,7 @@ public class Key : CollectableObjectScript
     
     [SerializeField] private DatabaseScriptableObject database;
 
-    [SerializeField] string thisKey = "00000000";
+    [SerializeField] string thisKey = "22222222";
     public delegate void KeyDelegate(string valueToSend);
 
     public event KeyDelegate keyCollected;
@@ -44,7 +44,8 @@ public class Key : CollectableObjectScript
     protected override void collectThisItem()
     {
         Debug.Log("This ran");
-        keyCollected?.Invoke(thisKey);
+        itemCollected.Invoke();
+        keyCollected?.Invoke(thisKey); //SO FOR SOMEREASON THIS IS FAILING
         gameObject.SetActive(false);
     }
 }

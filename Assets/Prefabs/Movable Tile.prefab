@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8960282669384549442}
   - component: {fileID: 6058933280549858401}
   - component: {fileID: 2743838257573179791}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Movable Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1d4013cce376545be8030f738e3304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  moveableTileSpeed: 100
+  changeInX: 0
+  changeInY: 10
+  changeInZ: 0
+  requiredKeyForThisTile: 00000000
 --- !u!50 &6058933280549858401
 Rigidbody2D:
   serializedVersion: 5

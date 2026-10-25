@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Metrics;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using Unity.VisualScripting;
@@ -70,6 +71,17 @@ namespace playerCode
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                int counter = 0;
+                foreach (string i in backpack)
+                {
+                    Debug.Log(backpack[counter]);
+                    counter++;
+                }
+                
+            }
+
             if (!isGameOver)
             {
                 movementHandler();
@@ -169,6 +181,10 @@ namespace playerCode
         {
             currentLevel++; //this needs to be the only time that the level is updated.
             Debug.Log(currentLevel);
+
+            //Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
+            //keyScript.keyCollected += CollectAKeyHandler;
+
             transform.position = database.respawnLocations[currentLevel]; // how out of bounds? database.respawnLocations 0 and 1 should be fine??
         }
         private void OnTriggerEnter2D(Collider2D collision) //remember that this code assumes that the HurtBox isn't a trigger, but the turn box is!
