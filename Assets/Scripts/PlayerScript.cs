@@ -180,12 +180,11 @@ namespace playerCode
         public void newLevel()
         {
             currentLevel++; //this needs to be the only time that the level is updated.
-            Debug.Log(currentLevel);
-
-            //Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
-            //keyScript.keyCollected += CollectAKeyHandler;
+            
 
             transform.position = database.respawnLocations[currentLevel]; // how out of bounds? database.respawnLocations 0 and 1 should be fine??
+            //alright alright so the above is running but the below isn't
+            Debug.Log(reloadKeyConnections()); //I love side effects! this is so compact
         }
         private void OnTriggerEnter2D(Collider2D collision) //remember that this code assumes that the HurtBox isn't a trigger, but the turn box is!
         {
@@ -298,7 +297,24 @@ namespace playerCode
             backpack.Add(txt);
         }
         public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
-        
+        private int reloadKeyConnections()
+        {
+            try 
+            { 
+                Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>(); //so we are getting a null reference exception here. What line?
+                keyScript.keyCollected += CollectAKeyHandler;
+                //so apparently, if any key is collected, then this code will all fail. Why?
+                //THE THING WE ARE REFERENCING DISABLES ITSELF
+                //WHAT IF WE ONLY DISABLE THE SCRIPT?
+                Debug.Log("Key Connections Reloaded!");
+            }
+            catch (Exception e) 
+            {
+                Debug.Log(e);
+                return 1;
+            }
+            return 0;
+        }
 
     }
 }

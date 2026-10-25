@@ -46,6 +46,9 @@ public class Key : CollectableObjectScript
         Debug.Log("This ran");
         itemCollected.Invoke();
         keyCollected?.Invoke(thisKey); //SO FOR SOMEREASON THIS IS FAILING
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false); //HERE I SEE I UNDERSTAND
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 }

@@ -503,6 +503,10 @@ PrefabInstance:
       propertyPath: thisKey
       value: 00000001
       objectReference: {fileID: 0}
+    - target: {fileID: 7487590090901946293, guid: 86473d691d19a0a44aaa93a9994415e1, type: 3}
+      propertyPath: overrideType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8551158382767466308, guid: 86473d691d19a0a44aaa93a9994415e1, type: 3}
       propertyPath: m_Size.x
       value: 0.52
