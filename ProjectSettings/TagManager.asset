@@ -12,6 +12,8 @@ TagManager:
   - EnemyTurnHurtBoxTag
   - EnemySpawnerTag
   - ObstacleTag
+  - GameOverSplashScreenTag
+  - MainTileMapTag
   layers:
   - Default
   - TransparentFX

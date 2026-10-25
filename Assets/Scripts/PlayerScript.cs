@@ -16,14 +16,25 @@ namespace playerCode
         public float playerDirection;
         [SerializeField] private bool isTouchingGround = false;
         public UnityEvent takeDamage;
+        public UnityEvent gameOver;
         private bool isInvincibile = false;
         [SerializeField] private float invincibilityFramesRemaining = 0; //defaults to 1
         public GameManagerScript GAME;
         [SerializeField] private DatabaseScriptableObject database;
         private int currentLevel = 0;
 
-
-        private Vector2[] spawnCoordinates = {new Vector2(0,0), new Vector2(-10, 4)};
+        public int CurrentLevel //don't need to do it manually but I did it anyways
+        {
+            get
+            {
+                return currentLevel;
+            } 
+            set
+            {
+                currentLevel = value;
+            }
+        }
+        //private Vector2[] spawnCoordinates = {new Vector2(0,0), new Vector2(-10, 4)};
         
         void Start()
         {
@@ -40,6 +51,7 @@ namespace playerCode
                 takeDamage = new UnityEvent(); //if this event isn't already assigned, then begin to assign it
             }
             takeDamage.AddListener(GAME.PlayerTakesDamage);
+            gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
         }
 
         // Update is called once per frame
@@ -179,6 +191,8 @@ namespace playerCode
         public void Die()
         {
             transform.position = database.respawnLocations[currentLevel];
+            
+            gameOver.Invoke();
         }
         private void recoil(Vector3 positionOfObjectThatYouHit)
         {
