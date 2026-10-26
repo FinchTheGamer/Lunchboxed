@@ -23,7 +23,7 @@ public class MovableTileScript : MonoBehaviour
         //i could make a temporary variable here... but that would be expensive for the memory
         
         Debug.Log("Do we have the Key?"); //apparently, we never had the key at all. So the problem is that we never have a key
-        Debug.Log(collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile));
+        //Debug.Log(collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile));
 
         if (collision.gameObject.CompareTag("PlayerTag") && !isOpen && collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile)) //if the player touches this and has the key
         {

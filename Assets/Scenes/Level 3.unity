@@ -12826,6 +12826,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 865065744843259274, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
+      propertyPath: enemySpawnTimer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 865065744843259274, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
+      propertyPath: spawnLocation.x
+      value: 8.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 865065744843259274, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
+      propertyPath: spawnLocation.y
+      value: -8.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 865065744843259274, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
+      propertyPath: overrideAutoTeleport
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4050431985446038226, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
       propertyPath: m_Name
       value: EnemySpawner
