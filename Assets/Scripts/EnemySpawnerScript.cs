@@ -9,7 +9,11 @@ public class EnemySpawnerScript : MonoBehaviour
     public int enemiesOnScreen = 0;
     [SerializeField] private float enemySpawnTimer = 5;
     [SerializeField] private bool isThereSomethingInMySpawnZone = false;
-    
+
+    [SerializeField] bool overrideAutoTeleport = false;
+
+    [SerializeField] Vector2 spawnLocation = new Vector2(3, -3.5f);
+    // why is this failing?
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,8 +31,8 @@ public class EnemySpawnerScript : MonoBehaviour
             {
                 if (!isThereSomethingInMySpawnZone)
                 {
-                    transform.position = new Vector2(3, -3.5f);
-                    spawnEnemy(3, -3.5f);
+                    transform.position = spawnLocation;
+                    spawnEnemy(spawnLocation.x, spawnLocation.y);
                     enemiesOnScreen++;
                     enemySpawnTimer = 5;
                 }
@@ -39,13 +43,18 @@ public class EnemySpawnerScript : MonoBehaviour
             }
         }
     }
-    [ContextMenu("spawnEnemy")] private void spawnEnemy(float x = 0, float y = 0)
+    private void spawnEnemy(float x = 0, float y = 0)
     {
         //GameObject clone =
         Instantiate(enemy, new Vector2(x, y), Quaternion.identity);
         //Scene activeScene = SceneManager.GetActiveScene();
         //SceneManager.MoveGameObjectToScene(clone, activeScene);
 
+    }
+
+    [ContextMenu("spawnEnemy")] private void DebugSpawnEnemy()
+    {
+        spawnEnemy(transform.position.x, transform.position.y);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

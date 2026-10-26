@@ -62,12 +62,15 @@ public class GameManagerScript : MonoBehaviour
 
         
     }
+    
     public void endLevelandLoadNextOne()
     {
+        //so what is going on
         Debug.Log("End Game");
         try
         {
             SceneManager.LoadScene("Level " + (playerScript.CurrentLevel + 1), LoadSceneMode.Single); // I need to write a function to fix this... but how can I fix that
+            Debug.Log("Removing this breaks the game");
             perfectlySafeToReloadKeys.Invoke();
         }
         catch(IndexOutOfRangeException e)

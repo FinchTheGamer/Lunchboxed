@@ -17,6 +17,7 @@ MonoBehaviour:
   - {x: -10, y: 4}
   - {x: -12, y: -7}
   - {x: -4, y: -3}
+  - {x: -58, y: -15}
   CollectibleObjectSpriteDatabase:
   - {fileID: 3404651025987517522, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
   - {fileID: -4482896367203201399, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
