@@ -12,3 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa7335d275d7814795af30aa00f6e58, type: 3}
   m_Name: DatabaseScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::DatabaseScriptableObject
+  respawnLocations:
+  - {x: -10, y: -3}
+  - {x: -10, y: 4}
+  - {x: -12, y: -7}
+  - {x: -4, y: -3}
+  - {x: -58, y: -15}
+  CollectibleObjectSpriteDatabase:
+  - {fileID: 3404651025987517522, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
+  - {fileID: -4482896367203201399, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
+  - {fileID: -7691055925504261015, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
+  - {fileID: -1141649079087537557, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
+  - {fileID: -1054624876298059505, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
