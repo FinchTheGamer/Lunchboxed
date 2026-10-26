@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject TurnFlag;
 
     public UnityEvent playerDies;
+    public UnityEvent perfectlySafeToReloadKeys;
     
     
     public int Lives
@@ -34,7 +35,7 @@ public class GameManagerScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("PlayerTag");
         playerScript = player.GetComponent<PlayerScript>();
         playerDies.AddListener(playerScript.Die);
-        
+        perfectlySafeToReloadKeys.AddListener(playerScript.reloadKeyConnections);
         Lives = 3;
         Coins = 0;
         text.text = "Lives: " + Lives.ToString();
@@ -67,6 +68,7 @@ public class GameManagerScript : MonoBehaviour
         try
         {
             SceneManager.LoadScene("Level " + (playerScript.CurrentLevel + 1), LoadSceneMode.Single); // I need to write a function to fix this... but how can I fix that
+            perfectlySafeToReloadKeys.Invoke();
         }
         catch(IndexOutOfRangeException e)
         {

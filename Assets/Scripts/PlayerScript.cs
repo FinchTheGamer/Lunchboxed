@@ -7,6 +7,7 @@ using NUnit.Framework.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 namespace playerCode
 {
     public class PlayerScript : MonoBehaviour
@@ -34,6 +35,8 @@ namespace playerCode
         public List<string> Backpack {  get { return backpack; } }
         private int currentLevel = 0;
 
+
+        
         public int CurrentLevel //don't need to do it manually but I did it anyways
         {
             get
@@ -81,6 +84,14 @@ namespace playerCode
                 }
                 
             }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                //let's just cheat in a key
+                Debug.Log("CHEAT ACTIVATED: ADD KEY 0000 0001");
+                Backpack.Add("00000001");
+            }
+
 
             if (!isGameOver)
             {
@@ -182,9 +193,10 @@ namespace playerCode
             currentLevel++; //this needs to be the only time that the level is updated.
             
 
-            transform.position = database.respawnLocations[currentLevel]; // how out of bounds? database.respawnLocations 0 and 1 should be fine??
+            transform.position = database.respawnLocations[currentLevel]; // okay so it shifts to the next level
             //alright alright so the above is running but the below isn't
-            Debug.Log(reloadKeyConnections()); //I love side effects! this is so compact
+            reloadKeyConnections();
+            //this is so stupid what on earth is going on... wait what if key uhhh connections are being loaded before the new level drops? do I need to set it up in the game?
         }
         private void OnTriggerEnter2D(Collider2D collision) //remember that this code assumes that the HurtBox isn't a trigger, but the turn box is!
         {
@@ -197,7 +209,7 @@ namespace playerCode
         }
         private void movementHandler()
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow) && isTouchingGround)
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && isTouchingGround)
             {
                 playerRigidBody.linearVelocity = new Vector2(0, 1) * jumpStrength; //setting this value equal to a vector will be different to adding a vectory onto the value
             }
@@ -293,27 +305,49 @@ namespace playerCode
         private void CollectAKeyHandler(string txt)
         {
             //txt should be the key so
+            //either this isn't receiving or the sender isn't transmitting...
             Debug.Log(txt);
             backpack.Add(txt);
         }
         public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
-        private int reloadKeyConnections()
+        public void reloadKeyConnections()
         {
             try 
-            { 
+            {
+                Debug.Log("lapse");
+                Debug.Log("There a key in the scene.");
+                Debug.Log(GameObject.FindWithTag("PlayerTag"));
+                Debug.Log(SceneManager.GetActiveScene().name);
+                Debug.Log(GameObject.FindGameObjectWithTag("TEMP")); //... we can't find anything! //a null vs an exception is different 
+                Debug.Log(GameObject.FindGameObjectWithTag("KeyTag"));
+                GameObject[] allObjectsWithTag = GameObject.FindGameObjectsWithTag("TEMP");
+                Debug.Log($"Total objects found with this tag: {allObjectsWithTag.Length}");
+                //null means the tag exists, but no one in the scene has it
+                Debug.Log("Risk Segment over"); // no it isn't // it looks like the code is checking... the last scene...
+                Debug.Log(GameObject.FindWithTag("KeyTag")); // this returns null
+                Debug.Log(GameObject.FindGameObjectWithTag("KeyTag").name); // I need to fix this...
+                // we need more tests!
+                //the code stops here. It cannot find GameObject.FindGameObjectWithTag("KeyTag)
+                //why can't it find that? // I think Key2 might not even exist.
                 Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>(); //so we are getting a null reference exception here. What line?
                 keyScript.keyCollected += CollectAKeyHandler;
+
+               
+                //this problem is clear. This is failing to connect. but why? I don't understand
                 //so apparently, if any key is collected, then this code will all fail. Why?
-                //THE THING WE ARE REFERENCING DISABLES ITSELF
+                //THE THING WE ARE REFERENCING DISABLES ITSELF //this is frustrating
                 //WHAT IF WE ONLY DISABLE THE SCRIPT?
+                //well disabling the script didn't help either
+                //gosh darn these keys are failing again
                 Debug.Log("Key Connections Reloaded!");
+                Debug.Log( keyScript.name + "Key connected!"); 
             }
             catch (Exception e) 
             {
                 Debug.Log(e);
-                return 1;
+                
             }
-            return 0;
+            
         }
 
     }

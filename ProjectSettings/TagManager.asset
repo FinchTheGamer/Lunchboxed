@@ -15,6 +15,7 @@ TagManager:
   - GameOverSplashScreenTag
   - MainTileMapTag
   - KeyTag
+  - TEMP
   layers:
   - Default
   - TransparentFX
