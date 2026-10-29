@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using playerCode;
 using System;
+using System.Collections;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -62,16 +63,30 @@ public class GameManagerScript : MonoBehaviour
 
         
     }
-    
-    public void endLevelandLoadNextOne()
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; //though, this should never be disabled really
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        safeToReloadKeys();
+    }
+    private void safeToReloadKeys()
+    {
+        perfectlySafeToReloadKeys.Invoke();
+    }
+    public void endLevelandLoadNextOne() //when this method is called, it needs to know when the scene is loaded.
     {
         //so what is going on
         Debug.Log("End Game");
         try
         {
             SceneManager.LoadScene("Level " + (playerScript.CurrentLevel + 1), LoadSceneMode.Single); // I need to write a function to fix this... but how can I fix that
-            Debug.Log("Removing this breaks the game");
-            perfectlySafeToReloadKeys.Invoke();
+            //wait til the scene is loaded? That'll need a wrapper...
         }
         catch(IndexOutOfRangeException e)
         {

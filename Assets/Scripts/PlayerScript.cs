@@ -314,16 +314,12 @@ namespace playerCode
         {
             try 
             {
-                Debug.Log("lapse");
-                Debug.Log("There a key in the scene.");
-                Debug.Log(GameObject.FindWithTag("PlayerTag"));
-                Debug.Log(SceneManager.GetActiveScene().name);
-                Debug.Log(GameObject.FindGameObjectWithTag("TEMP")); //... we can't find anything! //a null vs an exception is different 
-                Debug.Log(GameObject.FindGameObjectWithTag("KeyTag"));
-                GameObject[] allObjectsWithTag = GameObject.FindGameObjectsWithTag("TEMP");
-                Debug.Log($"Total objects found with this tag: {allObjectsWithTag.Length}");
+                
+                
+                Debug.Log(SceneManager.GetActiveScene().name); // at least it correctly knows the scene!
+                
                 //null means the tag exists, but no one in the scene has it
-                Debug.Log("Risk Segment over"); // no it isn't // it looks like the code is checking... the last scene...
+                
                 Debug.Log(GameObject.FindWithTag("KeyTag")); // this returns null
                 Debug.Log(GameObject.FindGameObjectWithTag("KeyTag").name); // I need to fix this...
                 // we need more tests!

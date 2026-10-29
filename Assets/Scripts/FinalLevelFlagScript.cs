@@ -11,7 +11,7 @@ public class FinalLevelFlagScript : MonoBehaviour
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         spriteRenderer.color = Color.purple;
-        winGame.AddListener(GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>().endLevelandLoadNextOne);
+        winGame.AddListener(GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>().endLevelandLoadNextOne); // this is a reference to the one in GameManager.
         winGame.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>().thisPlayerWins);
     }
 
