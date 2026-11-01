@@ -68,12 +68,5 @@ public class Key : CollectableObjectScript
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<Key>().enabled = false;
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            Debug.Log(gameObject.name);
-            Debug.Log(gameObject.tag);
-        }
-    }
+    
 }

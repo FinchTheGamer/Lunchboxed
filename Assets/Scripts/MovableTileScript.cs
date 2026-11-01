@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using playerCode;
 using UnityEngine;
 
@@ -12,9 +14,12 @@ public class MovableTileScript : MonoBehaviour
 
     [SerializeField] private string requiredKeyForThisTile = "00000000";
 
+    const float SNAPDISTANCE = 0.01f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //temp
+        
         
     }
 
@@ -22,13 +27,11 @@ public class MovableTileScript : MonoBehaviour
     {
         //i could make a temporary variable here... but that would be expensive for the memory
         
-        Debug.Log("Do we have the Key?"); //apparently, we never had the key at all. So the problem is that we never have a key
-        //Debug.Log(collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile));
 
         if (collision.gameObject.CompareTag("PlayerTag") && !isOpen && collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile)) //if the player touches this and has the key
         {
-            Open();
-            
+            StartCoroutine(ExperimentalOpen());
+           
             
         }
 
@@ -36,9 +39,32 @@ public class MovableTileScript : MonoBehaviour
 
     void Open()
     {
-        Vector3 newPosition = new Vector3(transform.position.x + changeInX, transform.position.y + changeInY, transform.position.z + changeInZ);
-        transform.position = Vector3.MoveTowards(transform.position, newPosition, moveableTileSpeed * Time.deltaTime);
+        
         isOpen = true;
     }
+    public IEnumerator ExperimentalOpen() //INEFFICIENT?
+    {
+        Vector3 STARTINGPOSITION = transform.position; //so this is the beginning
+        Vector3 ENDINGPOSITION = new Vector3(transform.position.x + changeInX, transform.position.y + changeInY, transform.position.z + changeInZ);
+        while (STARTINGPOSITION != ENDINGPOSITION) //what if it misses ohso slightly?s
+        {
+            if (Vector3.Distance(transform.position, ENDINGPOSITION) > SNAPDISTANCE) 
+            {
+                transform.position = Vector3.MoveTowards(transform.position, ENDINGPOSITION, moveableTileSpeed * Time.deltaTime); //well now they are flying... into the sun                                                                                                                  
+                //should I put a heavy if statement?
+                //yeah I want to
+            }
+            else
+            {
+                transform.position = ENDINGPOSITION;
+                break;
+            }
+            //if (Vector3.Distance(transform.position, ENDINGPOSITION) < 1) { transform.position = ENDINGPOSITION; } // is it over or undershooting?
+            
+            yield return null; //now why is it going
 
+        }
+        isOpen = true;
+        
+    }
 }

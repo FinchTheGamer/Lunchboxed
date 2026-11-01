@@ -843,12 +843,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8960282669384549442, guid: b9eec34346b7d6b499a450cc892b2977, type: 3}
+      propertyPath: changeInX
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8960282669384549442, guid: b9eec34346b7d6b499a450cc892b2977, type: 3}
       propertyPath: changeInY
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8960282669384549442, guid: b9eec34346b7d6b499a450cc892b2977, type: 3}
       propertyPath: changeInZ
-      value: 100
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8960282669384549442, guid: b9eec34346b7d6b499a450cc892b2977, type: 3}
+      propertyPath: moveableTileSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8960282669384549442, guid: b9eec34346b7d6b499a450cc892b2977, type: 3}
       propertyPath: requiredKeyForThisTile
