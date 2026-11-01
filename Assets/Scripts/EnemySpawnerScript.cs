@@ -18,7 +18,7 @@ public class EnemySpawnerScript : MonoBehaviour
     void Start()
     {
         enemiesOnScreen = GameObject.FindGameObjectsWithTag("EnemyTag").Length;
-
+        
     }
 
     // Update is called once per frame
@@ -71,4 +71,5 @@ public class EnemySpawnerScript : MonoBehaviour
             isThereSomethingInMySpawnZone = false;
         }
     }
+    
 }

@@ -14,12 +14,25 @@ public class JellyKingScript : EnemyScript
     private UnityEvent kickStartProjectile;
     private Transform projectileSpawnLocation;
     [SerializeField] private DatabaseScriptableObject database;
+    private  int  enemyHealth = 3;
+    public new int  EnemyHealth
+    {
+        get
+        {
+            return enemyHealth;
+        }
+        set
+        {
+            enemyHealth = value;
+        }
+    }
     public delegate void JellyKingDelegate(Vector3 moveDirection);
     public event JellyKingDelegate setProjectileTargetDestination;
 
     private Vector3 moveDirectionOfNewProjectiles = new Vector3(-5, 0, 0);
     void Start()
     {
+        
         JellyKingDelegate sendMoveDirection = (moveDirection) => { }; //creates a quick lil lambda that just returns the MoveDirection
         projectileSpawnLocation = transform.Find("ProjectileSpawnLocation");
         StartCoroutine(StartJellyKingAttack());

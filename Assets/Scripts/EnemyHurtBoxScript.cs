@@ -1,14 +1,24 @@
+using System;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class EnemyHurtBoxScript : MonoBehaviour
 {
     public GameObject enemy;
     public BoxCollider2D enemyHurtBox;
     public EnemySpawnerScript enemySpawnerScript;
+    private bool isEnemySpawnerScriptNull = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemySpawnerScript = GameObject.FindGameObjectWithTag("EnemySpawnerTag").GetComponent<EnemySpawnerScript>(); // this isn't returning anything, but that doesn't matter;
+        try
+        {
+            enemySpawnerScript = GameObject.FindGameObjectWithTag("EnemySpawnerTag").GetComponent<EnemySpawnerScript>(); // this isn't returning anything, but that doesn't matter;
+        }
+        catch(NullReferenceException e) // I don't need to save e, but its fun
+        {
+            Debug.Log(e);
+            isEnemySpawnerScriptNull = true;
+        }
     }
 
     // Update is called once per frame
@@ -20,9 +30,16 @@ public class EnemyHurtBoxScript : MonoBehaviour
         {
             if (collision.otherCollider == enemyHurtBox) //for some strange reason, "otherCollider" is OUR collider
             {
-                Debug.Log("Enemy dies 2!");
-                Destroy(enemy);
-                enemySpawnerScript.enemiesOnScreen--;
+                enemy.GetComponent<EnemyScript>().EnemyHealth--;
+                if (enemy.GetComponent<EnemyScript>().EnemyHealth <= 0)
+                {
+                    Destroy(enemy); //WARNING! Enemy only tries to die the moment it hits 0
+                }
+                
+                if (!isEnemySpawnerScriptNull)
+                {
+                    enemySpawnerScript.enemiesOnScreen--; //let's make this an event to get rid of that dumb event;
+                }
             }
 
         }

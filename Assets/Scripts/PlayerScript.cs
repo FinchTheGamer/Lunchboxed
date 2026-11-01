@@ -139,7 +139,7 @@ namespace playerCode
                 invincibilityFramesRemaining = 1;
                 
             }
-            if (collision.gameObject.CompareTag("ObstacleTag") && (invincibilityFramesRemaining == 0))
+            if ((collision.gameObject.CompareTag("ObstacleTag") || collision.gameObject.layer == 9) && (invincibilityFramesRemaining == 0))
             {
                 takeDamage.Invoke();
 

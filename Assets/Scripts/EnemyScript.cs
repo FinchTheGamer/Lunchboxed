@@ -10,7 +10,19 @@ public class EnemyScript : MonoBehaviour
     public PlayerScript playerScript;
     public GameManagerScript gameManagerScript;
     
-    [SerializeField] private float enemyMoveSpeed = 1;
+    private float enemyMoveSpeed = 1;
+    private int enemyHealth = 1;
+    public int EnemyHealth
+    {
+        get
+        {
+            return enemyHealth;
+        }
+        set
+        {
+            enemyHealth = value;
+        }
+    }
     public Rigidbody2D playerRigidBody;
 
     
