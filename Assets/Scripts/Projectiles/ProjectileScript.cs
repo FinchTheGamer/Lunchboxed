@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Rendering;
+using NUnit.Framework.Constraints;
 public class ProjectileScript : MonoBehaviour
 {
     private Rigidbody2D rigidbody;
     
-    private Vector3 moveTowardsDirection; //this is not WHERE to move to, but rather how fast. Is that confusing? Yeah! but it was handy to package the data that way.
+    private Vector3 moveTowardsDirection = new Vector3(-10, 0, 0); //this is not WHERE to move to, but rather how fast. Is that confusing? Yeah! but it was handy to package the data that way.
     public Vector3 MoveTowards 
     {
         get
@@ -20,27 +22,36 @@ public class ProjectileScript : MonoBehaviour
     private void SetMoveTowards(Vector3 newMoveTowards)
     {
         MoveTowards = newMoveTowards;
+        //this is running... but what's being passed to it?
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        moveTowardsDirection = transform.position;
+        
+        
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        JellyKingScript jellyKingScript = GameObject.FindGameObjectWithTag("JellyKingTag").GetComponent<JellyKingScript>();
+        rigidbody.gravityScale = 0f;
+        gameObject.SetActive(true);
+        GameObject JellyKing = GameObject.FindGameObjectWithTag("JellyKingTag");
+        JellyKingScript jellyKingScript = JellyKing.GetComponent<JellyKingScript>();
         jellyKingScript.setProjectileTargetDestination += SetMoveTowards;
+        
         StartCoroutine(Move());
+
     }
 
-    private void OnBecameInvisible()
-    {
-        StopCoroutine(Move());
-        Destroy(gameObject);
-    }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StopCoroutine(Move());
-        gameObject.SetActive(false);
+        Debug.Log("I hit something, but is it friend or foe?");
+        
+        
+            Debug.Log("I hit something!");
+            StopCoroutine(Move());
+            gameObject.SetActive(false);
     }
+    
     private void OnDisable()
     {
         
@@ -51,7 +62,9 @@ public class ProjectileScript : MonoBehaviour
     {
         while(gameObject.activeInHierarchy == true)
         {
-            transform.position = new Vector3((transform.position.x + moveTowardsDirection.x), (transform.position.y + moveTowardsDirection.y), (transform.position.z + moveTowardsDirection.z));
+            
+            rigidbody.linearVelocity = moveTowardsDirection;
+            
             yield return null;
         }
 
