@@ -8,6 +8,7 @@ using System.Collections;
 
 public class GameManagerScript : MonoBehaviour
 {
+    private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
     public GameObject attackHitBox;
     public PlayerScript playerScript;
     public BoxCollider2D attackHitBoxCollider2D;

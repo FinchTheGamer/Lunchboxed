@@ -24,3 +24,4 @@ MonoBehaviour:
   - {fileID: -7691055925504261015, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
   - {fileID: -1141649079087537557, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
   - {fileID: -1054624876298059505, guid: e5025a82329bffa41a1dd54fc91e3f5e, type: 3}
+  projectile: {fileID: 7130166981236058094, guid: 733bf46e8422bd840a4f7e5007e2f54d, type: 3}

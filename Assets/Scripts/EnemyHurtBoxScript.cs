@@ -8,7 +8,7 @@ public class EnemyHurtBoxScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemySpawnerScript = GameObject.FindGameObjectWithTag("EnemySpawnerTag").GetComponent<EnemySpawnerScript>();
+        enemySpawnerScript = GameObject.FindGameObjectWithTag("EnemySpawnerTag").GetComponent<EnemySpawnerScript>(); // this isn't returning anything, but that doesn't matter;
     }
 
     // Update is called once per frame

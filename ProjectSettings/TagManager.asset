@@ -16,6 +16,8 @@ TagManager:
   - MainTileMapTag
   - KeyTag
   - TEMP
+  - MoveableTileTag
+  - JellyKingTag
   layers:
   - Default
   - TransparentFX

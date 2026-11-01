@@ -53,7 +53,7 @@ namespace playerCode
         void Start()
         {
             
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); // is calling this dangerous?
             GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
 
             Key keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
@@ -178,6 +178,12 @@ namespace playerCode
                 isInvincibile = true;
                 invincibilityFramesRemaining = 1;
             }
+            if (collision.gameObject.CompareTag("MoveableTileTag")) 
+            {
+                
+                transform.SetParent(collision.gameObject.transform, worldPositionStays:true); //reparents the entire player to the moveable tile so that it drags with it.
+                
+            }
 
         }
         private void OnCollisionExit2D(Collision2D collision)
@@ -186,6 +192,11 @@ namespace playerCode
             if (isTouchingGround && collision.gameObject.layer == 6)
             {
                 isTouchingGround = false;
+            }
+            if (collision.gameObject.CompareTag("MoveableTileTag"))
+            {
+                transform.SetParent(null, worldPositionStays: true);
+                DontDestroyOnLoad(gameObject);
             }
         }
         public void newLevel()

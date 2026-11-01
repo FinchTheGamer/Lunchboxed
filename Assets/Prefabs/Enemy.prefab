@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   enemy: {fileID: 7896455897758288902}
   enemyHurtBox: {fileID: 4862897265684761714}
-  gameManagerScript: {fileID: 0}
+  enemySpawnerScript: {fileID: 0}
 --- !u!1 &7896455897758288902
 GameObject:
   m_ObjectHideFlags: 0
