@@ -24,11 +24,11 @@ public class EnemyScript : MonoBehaviour
         }
     }
     public Rigidbody2D playerRigidBody;
-
+    protected Vector3 localScale;
     
   
     
-    private int direction = -1;
+    protected int direction = -1;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,7 +56,10 @@ public class EnemyScript : MonoBehaviour
     }
     public void turnAround()
     {
-        direction = direction * -1; //if direction = 1, then it'll flip to -1. If direction = -1, then it'll flip to 1. Genius!
+        direction = direction * -1; //if direction = 1, then it'll flip to -1. If direction = -1, then it'll flip to 1. Genius!\
+        localScale = transform.localScale; //so that we can modify it, because localscale.x is normally read only
+        localScale.x *= -1;
+        transform.localScale = localScale; 
     }
 
     

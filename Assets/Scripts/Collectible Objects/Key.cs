@@ -49,7 +49,6 @@ public class Key : CollectableObjectScript
     protected override void collectThisItem()
     {
         Debug.Log("This ran");
-        itemCollected.Invoke();
         keyCollected?.Invoke(thisKey); //SO FOR SOMEREASON THIS IS FAILING
         //i need to figure out if this is never transmitting or if the receiver is never receiving
 

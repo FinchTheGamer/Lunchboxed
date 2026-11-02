@@ -32,7 +32,7 @@ public class CollectableObjectScript : MonoBehaviour
 
         collectibleObjectSpriteList =  Resources.LoadAll<Sprite>("Collectibles"); //this loads in all of them! Be careful! This is nowhere near best practice //its not finding anything!
         
-        Debug.Log(collectibleObjectSpriteList.Length);
+        
         if (!overrideType)
         {
             type = "Coin";

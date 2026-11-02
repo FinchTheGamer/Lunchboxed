@@ -356,6 +356,9 @@ namespace playerCode
             }
             
         }
+        private void CollectPowerUp()
+        {
 
+        }
     }
 }
