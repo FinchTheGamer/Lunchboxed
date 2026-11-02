@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.Metrics;
@@ -69,6 +70,7 @@ namespace playerCode
             }
             takeDamage.AddListener(GAME.PlayerTakesDamage);
             gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
+
         }
 
         // Update is called once per frame
@@ -356,9 +358,16 @@ namespace playerCode
             }
             
         }
-        private void CollectPowerUp()
+        public void CollectPowerUp()
         {
 
+        }
+
+        private IEnumerator ActivatePowerUp()
+        {
+            speed *= 5;
+            yield return new WaitForSeconds(10f);
+            speed /= 5;
         }
     }
 }

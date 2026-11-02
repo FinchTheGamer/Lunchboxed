@@ -8,8 +8,9 @@ public class ProjectileScript : MonoBehaviour
     private Rigidbody2D rigidbody;
     GameObject JellyKing;
     JellyKingScript jellyKingScript;
+    SpriteRenderer spriteRenderer;
     private Vector3 moveTowardsDirection = new Vector3(10, 0, 0); //this is not WHERE to move to, but rather how fast. Is that confusing? Yeah! but it was handy to package the data that way.
-    public Vector3 MoveTowards 
+    public Vector3 MoveTowards //yooo
     {
         get
         {
@@ -31,7 +32,7 @@ public class ProjectileScript : MonoBehaviour
         
         MoveTowards = new Vector3(newMoveTowardsX, newMoveTowardsY, newMoveTowardsZ);
         
-        Ding();
+       
         //Debug.Log("Twas " + MoveTowards); //so its being updated...
         //this is running... but what's being passed to it?
         
@@ -40,7 +41,8 @@ public class ProjectileScript : MonoBehaviour
     void Start()
     {
         
-        
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.color = Color.orange;
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         rigidbody.gravityScale = 0f;
         gameObject.SetActive(true);
@@ -73,10 +75,7 @@ public class ProjectileScript : MonoBehaviour
         jellyKingScript.setProjectileTargetDestination -= SetMoveTowards;
     }
 
-    private void Ding()
-    {
-        Debug.Log("Ding");
-    }
+   
     private IEnumerator Move()
     {
         while(gameObject.activeInHierarchy == true)
