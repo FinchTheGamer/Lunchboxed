@@ -42,7 +42,7 @@ public class ProjectileScript : MonoBehaviour
     {
         
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.color = Color.orange;
+        spriteRenderer.color = Color.yellow;
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         rigidbody.gravityScale = 0f;
         gameObject.SetActive(true);

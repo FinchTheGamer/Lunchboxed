@@ -11,10 +11,10 @@ public class ToyScript : MonoBehaviour
     public Rigidbody2D rigidbody2D;
        
        
-    public float frequency = 2.0f;     //so uhh its like how fast
+    public float frequency = 3.0f;     //so uhh its like how fast
 
-    int ticker = 0;
-    float tempY;
+    
+    
     Vector3 goal;
     private Vector3 originalScale;
     // Update is called once per frame
@@ -87,6 +87,10 @@ public class ToyScript : MonoBehaviour
         {
             return thePlayersDirection;
         }
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("Toy was destroyed! またね");
     }
     //HOW CAN I GET IT TO MOVE IN A CIRCLE
     //LIKE DREAMSHIELD

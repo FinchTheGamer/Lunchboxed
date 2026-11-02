@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using System.Collections;
 using static Key;
 using System;
-using UnityEditor.Experimental.GraphView;
+
 //what if we can make the enemy shoot fireballs?
 
 public class JellyKingScript : EnemyScript
