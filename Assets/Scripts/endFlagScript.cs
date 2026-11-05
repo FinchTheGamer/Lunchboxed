@@ -22,5 +22,9 @@ public class endFlagScript : MonoBehaviour
             //fixed the problem here! The code was connecting to the flag twice!
         }
     }
+    void Update()
+    {
+        
+    }
    
 }
