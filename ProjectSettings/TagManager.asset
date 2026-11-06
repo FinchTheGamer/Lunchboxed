@@ -18,6 +18,7 @@ TagManager:
   - TEMP
   - MoveableTileTag
   - JellyKingTag
+  - PlayerControllerTag
   layers:
   - Default
   - TransparentFX

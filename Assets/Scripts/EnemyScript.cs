@@ -1,3 +1,4 @@
+using System.Collections;
 using playerCode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class EnemyScript : MonoBehaviour
     
     public PlayerScript playerScript;
     public GameManagerScript gameManagerScript;
-    
+    protected int direction = -1;
     private float enemyMoveSpeed = 1;
     private int enemyHealth = 1;
     public int EnemyHealth
@@ -23,12 +24,35 @@ public class EnemyScript : MonoBehaviour
             enemyHealth = value;
         }
     }
+    
     public Rigidbody2D playerRigidBody;
     protected Vector3 localScale;
     
-  
+    enum EnemyModifierType
+    {
+        Normal,
+        Fast,
+        Strong
+    }
+
+    struct EnemyTypeAttributes
+    {
+        public int enemyTypeSpeed;
+        public int enemyTypeDamage;
+        public int enemyTypeHealth;
+        
+        public EnemyTypeAttributes(int speed, int damage, int health): this() //what on earth does this() do?
+        {
+            enemyTypeSpeed = speed;
+            enemyTypeDamage = damage;
+            enemyTypeHealth = health; //if something goes wrong, let's be honest, it's this
+        }
+
+    }
+
+    EnemyModifierType enemyModifierType; //hashmap would be helpful to return the modifiers
     
-    protected int direction = -1;
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,7 +65,14 @@ public class EnemyScript : MonoBehaviour
 
         playerScript = player.GetComponent<PlayerScript>();
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
-        
+
+        Hashtable enemyTypeHashmap = new Hashtable()
+        {
+            {EnemyModifierType.Normal, new EnemyTypeAttributes(1, 1, 1) },//ugh but I'll need a struct tooo
+            {EnemyModifierType.Fast, new EnemyTypeAttributes(2, 1, 1)},//modify health over the entire game so that this speed can be halved
+            {EnemyModifierType.Strong, new EnemyTypeAttributes(1, 1, 2) } //same for the strength... everything in this game will need to go up by ten or so
+        };
+
     }
     
 

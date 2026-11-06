@@ -17,6 +17,8 @@ public class JellyKingScript : EnemyScript
     private Transform projectileSpawnLocation;
     private Rigidbody2D rigidbody2D; //I DIDN'T KNOW YOU COULD HAVE NUMBERS IN THE VARIABLE NAME
     [SerializeField] private DatabaseScriptableObject database;
+
+    public event Action<Vector3> SetProjectileSpeed;
     
     private  int  enemyHealth = 3;
     public new int  EnemyHealth
@@ -30,11 +32,11 @@ public class JellyKingScript : EnemyScript
             enemyHealth = value;
         }
     }
-    public delegate void JellyKingDelegate(float moveDirectionX, float moveDirectionY, float moveDirectionZ);
-    public event JellyKingDelegate setProjectileTargetDestination;
+    //public delegate void JellyKingDelegate(float moveDirectionX, float moveDirectionY, float moveDirectionZ);
+    //public event JellyKingDelegate setProjectileTargetDestination;
     
     
-    private Vector3 moveDirectionOfNewProjectiles = new Vector3(-5, 0, 0);
+    private Vector3 moveDirectionOfNewProjectiles = new Vector3(-12, 1, 0);
     public int Direction
     {
         get
@@ -56,7 +58,7 @@ public class JellyKingScript : EnemyScript
     {
         
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        JellyKingDelegate sendMoveDirection = (moveDirectionX,moveDirectionY,moveTowardsZ) => { }; //creates a quick lil lambda that just returns the MoveDirection
+        //JellyKingDelegate sendMoveDirection = (moveDirectionX,moveDirectionY,moveTowardsZ) => { }; //creates a quick lil lambda that just returns the MoveDirection
         projectileSpawnLocation = transform.Find("ProjectileSpawnLocation");
         StartCoroutine(StartJellyKingAttack()); //it can't find its own coroutine? //now it just stoppped calling the coroutine
         
@@ -70,11 +72,10 @@ public class JellyKingScript : EnemyScript
         moveDirectionOfNewProjectiles.x = moveDirectionOfNewProjectiles.x * direction;
         
         GameObject NewProjectile = Instantiate(database.projectile, projectileSpawnLocation.position, Quaternion.identity);
-        
-        setProjectileTargetDestination?.Invoke(moveDirectionOfNewProjectiles.x, moveDirectionOfNewProjectiles.y, moveDirectionOfNewProjectiles.z); //it should kinda just shoot a fireball without moving //it looks as though its not receiving the new position?\
+        SetProjectileSpeed?.Invoke(moveDirectionOfNewProjectiles); //it should kinda just shoot a fireball without moving //it looks as though its not receiving the new position?\
         //I'M GETTING A NULL REFERENCE EXCEPTION
         
-       
+       //the projectile hasn't been born yet... i hate this i hate this i hate this i hate this i can't solve it
 
 
         // so this is moving, but it gets stuck moving. Instead, create an event and subscribe to the event when the newbie is created, which tells the newbie to move itself

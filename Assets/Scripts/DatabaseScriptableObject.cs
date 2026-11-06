@@ -16,5 +16,6 @@ public class DatabaseScriptableObject : ScriptableObject
     }
     public GameObject projectile;
     private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
-    
+    //ping Lemion with "what" in the slack
+
 }
