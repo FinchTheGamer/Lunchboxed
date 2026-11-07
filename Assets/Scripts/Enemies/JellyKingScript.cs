@@ -72,7 +72,7 @@ public class JellyKingScript : EnemyScript
         moveDirectionOfNewProjectiles.x = moveDirectionOfNewProjectiles.x * direction;
         
         GameObject NewProjectile = Instantiate(database.projectile, projectileSpawnLocation.position, Quaternion.identity);
-        SetProjectileSpeed?.Invoke(moveDirectionOfNewProjectiles); //it should kinda just shoot a fireball without moving //it looks as though its not receiving the new position?\
+        //SetProjectileSpeed?.Invoke(moveDirectionOfNewProjectiles); //it should kinda just shoot a fireball without moving //it looks as though its not receiving the new position?\
         //I'M GETTING A NULL REFERENCE EXCEPTION
         
        //the projectile hasn't been born yet... i hate this i hate this i hate this i hate this i can't solve it

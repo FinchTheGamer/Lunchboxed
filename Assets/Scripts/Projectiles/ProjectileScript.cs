@@ -9,7 +9,7 @@ public class ProjectileScript : MonoBehaviour
     GameObject JellyKing;
     JellyKingScript jellyKingScript;
     SpriteRenderer spriteRenderer;
-    private Vector3 moveTowardsDirection = new Vector3(-5, 0, 0); //this is not WHERE to move to, but rather how fast. Is that confusing? Yeah! but it was handy to package the data that way.
+    private Vector3 moveTowardsDirection = new Vector3(5, 0, 0); //this is not WHERE to move to, but rather how fast. Is that confusing? Yeah! but it was handy to package the data that way.
     public Vector3 MoveTowards //yooo
     {
         get
@@ -51,20 +51,21 @@ public class ProjectileScript : MonoBehaviour
         JellyKing = GameObject.FindGameObjectWithTag("JellyKingTag");
         jellyKingScript = JellyKing.GetComponent<JellyKingScript>();
         
-        jellyKingScript.SetProjectileSpeed += SetMoveTowards; // null reference exception!! //maybe it can't listen! It is being instantiated at the sametime!
+        //jellyKingScript.SetProjectileSpeed += SetMoveTowards; // null reference exception!! //maybe it can't listen! It is being instantiated at the sametime!
         
         moveTowardsDirection.x = moveTowardsDirection.x * jellyKingScript.Direction;
+        
         StartCoroutine(Move());
 
     }
-    
+    //ugh
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("I hit something, but is it friend or foe?");
+        //Debug.Log("I hit something, but is it friend or foe?");
         
         
-            Debug.Log("I hit something!");
+            //Debug.Log("I hit something!");
             StopCoroutine(Move());
             gameObject.SetActive(false);
     }
@@ -72,7 +73,7 @@ public class ProjectileScript : MonoBehaviour
     
     private void OnDestroy()
     {
-        jellyKingScript.SetProjectileSpeed -= SetMoveTowards;
+        //jellyKingScript.SetProjectileSpeed -= SetMoveTowards;
     }
 
    

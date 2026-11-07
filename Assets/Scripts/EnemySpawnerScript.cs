@@ -1,5 +1,5 @@
 using System;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +13,8 @@ public class EnemySpawnerScript : MonoBehaviour
     [SerializeField] bool overrideAutoTeleport = false;
 
     [SerializeField] Vector2 spawnLocation = new Vector2(3, -3.5f);
+    [SerializeField] EnemyScript.EnemyModifierType kindOfEnemyWeSpawn =  EnemyScript.EnemyModifierType.Normal; // I really didn't expect that to exist
+
     // why is this failing?
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,7 +48,8 @@ public class EnemySpawnerScript : MonoBehaviour
     private void spawnEnemy(float x = 0, float y = 0)
     {
         //GameObject clone =
-        Instantiate(enemy, new Vector2(x, y), Quaternion.identity);
+        GameObject clone = Instantiate(enemy, new Vector2(x, y), Quaternion.identity);
+        clone.GetComponent<EnemyScript>().enemyModifierType = kindOfEnemyWeSpawn;
         //Scene activeScene = SceneManager.GetActiveScene();
         //SceneManager.MoveGameObjectToScene(clone, activeScene);
 

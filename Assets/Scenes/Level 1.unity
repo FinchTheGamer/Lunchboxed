@@ -712,7 +712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4290219993186274909, guid: e4b262442446e1e438cd7d7caa50c60d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.6
+      value: -3.602
       objectReference: {fileID: 0}
     - target: {fileID: 4290219993186274909, guid: e4b262442446e1e438cd7d7caa50c60d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1078,6 +1078,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 865065744843259274, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
+      propertyPath: kindOfEnemyWeSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3466172649110918845, guid: 85ec1f8e9d5300a4b94dfa21dfc51737, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
       value: 0.5
