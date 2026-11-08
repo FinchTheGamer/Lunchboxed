@@ -11,7 +11,7 @@ public class MovableTileScript : MonoBehaviour
     [SerializeField] private int changeInY = 10;
     [SerializeField] private int changeInZ = 0;
     private bool isOpen = false;
-
+    private bool doesPlayerHaveKey;
     [SerializeField] private string requiredKeyForThisTile = "00000000";
 
     const float SNAPDISTANCE = 0.01f;
@@ -26,9 +26,16 @@ public class MovableTileScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //i could make a temporary variable here... but that would be expensive for the memory
-        
-
-        if (collision.gameObject.CompareTag("PlayerTag") && !isOpen && collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile)) //if the player touches this and has the key
+        if (collision.gameObject.GetComponent<PlayerScript>() != null)
+        {
+            doesPlayerHaveKey = collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile);
+            //probably very inefficient. Croissant would yell at me so bad
+        }
+        else
+        {
+            doesPlayerHaveKey = collision.gameObject.GetComponentInChildren<PlayerInventoryScript>();
+        }
+        if (collision.gameObject.CompareTag("PlayerTag") && !isOpen && doesPlayerHaveKey) //if the player touches this and has the key
         {
             StartCoroutine(ExperimentalOpen());
            

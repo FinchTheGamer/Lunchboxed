@@ -37,8 +37,7 @@ public class PlayerControllerScript : MonoBehaviour
     private UnityEvent FlipCharacterSpriteDirection;
     void Start()
     {
-        Character = GameObject.FindGameObjectWithTag("PlayerTag");
-        characterRigidBody = Character.GetComponent<Rigidbody2D>();
+        ConnectReferences();
         jumpStrength = 7;
         speed = 5;
     }
@@ -66,6 +65,20 @@ public class PlayerControllerScript : MonoBehaviour
             //playerSpriteRenderer.flipX = false;
             //FlipCharacterSpriteDirection.Invoke();
         }
+
+        //if (playerDirection != 0 && !playerAnimator.GetBool("isFalling"))
+        //{
+        //    playerAnimator.SetBool("isRunning", true);
+        //}
+        //else
+        //{
+        //    playerAnimator.SetBool("isRunning", false);
+        //}
+    }
+    private void ConnectReferences()
+    {
+        Character = gameObject.transform.parent.transform.gameObject; //our game object's transform's parent's transform's game object (so just the parent of this game object
+        characterRigidBody = Character.GetComponent<Rigidbody2D>();
     }
 
     //we are either going to need a million different parameters in one event or a million different events

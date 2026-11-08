@@ -8,10 +8,16 @@ public class cameraScript : MonoBehaviour
     public Camera cameraComponent;
     public AudioListener audioListener;
     public int cameraSpeed = 5;
+    private bool tryToFindPlayer = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("PlayerTag");
+        
+        
+            player = GameObject.FindGameObjectWithTag("PlayerTag");
+        
+            Debug.Log("Player not connected to Camera");
+        
         
     }
     void Awake() // Awake is called before any other Start() has been called. A constructor for GameObjects
@@ -25,6 +31,11 @@ public class cameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        
+        
+
+
+            transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+       
     }
 }
