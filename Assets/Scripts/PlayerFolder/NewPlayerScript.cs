@@ -1,16 +1,192 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class NewPlayerScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    //Is it okay for this to double as a general controller and a hurtbox?
+    [SerializeField] private DatabaseScriptableObject database;
+    public UnityEvent reloadKeyConnections;
+    public UnityEvent gameOver;
+    public UnityEvent takeDamage;
+    public delegate void ReturnRecoilDelegate(Vector3 wheretheenemyis);
+    //still don't get delegates, never will
+    public event ReturnRecoilDelegate ReturnRecoil;
+    public delegate void SetPlayerCurrentAnimationBool(string animationName, bool ciertoOFalso);
+    public event SetPlayerCurrentAnimationBool PlayerCurrentAnimationBool;
+    private GameManagerScript GAME;
+    private GameObject playerInventory;
+    private PlayerInventoryScript playerInventoryScript;
+    private Rigidbody2D playerRigidBody;
+    private bool isTouchingGround;
+    public bool IsTouchingGround
     {
-        
+        get
+        {
+            return isTouchingGround; //anyone can check isTouchingGround
+        }
+        private set
+        {
+            value = isTouchingGround; //no one gets to change isTouchingGround
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private bool isGameOver = false;
+    private bool isInvincibile = false;
+    private float invincibilityFramesRemaining = 0; //defaults to 1
+    private int currentLevel = 0;
+    public int CurrentLevel //don't need to do it manually but I did it anyways
     {
+        get
+        {
+            return currentLevel;
+        }
+        set
+        {
+            currentLevel = value;
+        }
+    }
+
+
+
+    private void recoil(Vector3 locationOfEnemy)
+    {
+        ReturnRecoil?.Invoke(locationOfEnemy); //doesn't throw a fit if its null
+    }
+    public void Die()
+    {
+        transform.position = database.respawnLocations[currentLevel];
+        isGameOver = true;
+        gameOver.Invoke();
+    }
+    public void newLevel()
+    {
+        currentLevel++; //this needs to be the only time that the level is updated.
+
+
+        transform.position = database.respawnLocations[currentLevel]; // okay so it shifts to the next level
+                                                                      //alright alright so the above is running but the below isn't
+        //reloadKeyConnections(); hmm gotta send a message to reloadKeyConnections();
+        reloadKeyConnections.Invoke();
+        //this is so stupid what on earth is going on... wait what if key uhhh connections are being loaded before the new level drops? do I need to set it up in the game?
+    }
+    
+    private void ConnectReferences()
+    {
+        //Debug.Log(transform.parent.gameObject); //we can't find our dad
+        //we are the dad!
+        playerInventory = GameObject.Find("PlayerInventory"); //hopefully this returns our sibling, PlayerInventory
+        // it can't find the playerInventory
+        playerInventoryScript = playerInventory.GetComponent<PlayerInventoryScript>();
+        playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
+        GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
+        reloadKeyConnections.AddListener(playerInventoryScript.ReloadKeyConnections); 
+        gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
+        if (takeDamage == null)
+        {
+            takeDamage = new UnityEvent(); //if this event isn't already assigned, then begin to assign it
+        }
+        takeDamage.AddListener(GAME.PlayerTakesDamage);
+    }
+
+    void Start()
+    {
+        ConnectReferences();
+        DontDestroyOnLoad(gameObject);
+    }
+    private void Update()
+    {
+        if (isInvincibile) // if the player is invincible
+        {
+            if (invincibilityFramesRemaining == 0) //and is no longer supposed to invincible
+            {
+                isInvincibile = false; //then don't be invincible
+            }
+            else if (invincibilityFramesRemaining <= 0) //and has a timer that is below 0
+            {
+                invincibilityFramesRemaining = 0; //then fix the timer
+            }
+            else //and still has i-frames remaining
+            {
+                invincibilityFramesRemaining -= Time.deltaTime; //then tick the timer down
+            }
+        }
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //collision.gameObject refers to the parent if the parent and child share a RigidBody
+        //collision.collider.gameObject refers to the parent or child, depending on who was hit.
+
+        //playerAnimator.SetBool("isFalling", false);
+        PlayerCurrentAnimationBool?.Invoke("isFalling", false);
+
+        if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
+        {
+            takeDamage.Invoke();
+            Debug.Log("The player has taken damage!");
+            Vector3 location_of_enemy = collision.transform.position;
+            recoil(location_of_enemy);
+            isInvincibile = true;
+            invincibilityFramesRemaining = 1;
+
+        }
+        if ((collision.gameObject.CompareTag("ObstacleTag") || collision.gameObject.layer == 9) && (invincibilityFramesRemaining == 0))
+        {
+            takeDamage.Invoke();
+
+            Vector3 location_of_enemy = collision.transform.position;
+            recoil(location_of_enemy);
+            isInvincibile = true;
+            invincibilityFramesRemaining = 1;
+        }
+        if (collision.gameObject.layer == 7 && collision.collider.gameObject.CompareTag("EnemyHurtBoxTag"))
+        {
+            playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocityX, 5);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        isTouchingGround = ((collision.gameObject.layer == 6)); //hmm... how often should this run? I don't want to force isTouchingGround to constantly flip!
+        if (isTouchingGround)
+        {
+            //playerAnimator.SetBool("isFalling", false);
+            PlayerCurrentAnimationBool?.Invoke("isFalling", false);
+        }
+        if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
+        {
+            takeDamage.Invoke();
+            Debug.Log("The player has taken damage!");
+            isInvincibile = true;
+            invincibilityFramesRemaining = 1;
+
+        }
+        if (collision.gameObject.CompareTag("ObstacleTag") && (invincibilityFramesRemaining == 0)) // if an obstacle has been hit
+        {
+            takeDamage.Invoke();
+
+            Vector3 location_of_enemy = collision.transform.position;
+            recoil(location_of_enemy);
+            isInvincibile = true;
+            invincibilityFramesRemaining = 1;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        PlayerCurrentAnimationBool?.Invoke("isFalling", true); //this is our key point! apparently, its never being set to true
+
+        if (isTouchingGround && collision.gameObject.layer == 6)
+        {
+            isTouchingGround = false;
+        }
+        if (collision.gameObject.CompareTag("MoveableTileTag"))
+        {
+            transform.SetParent(null, worldPositionStays: true);
+            DontDestroyOnLoad(gameObject);
+            isTouchingGround = false;
+        }
+    }
+
+
 }

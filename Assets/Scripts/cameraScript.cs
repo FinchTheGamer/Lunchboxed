@@ -8,7 +8,7 @@ public class cameraScript : MonoBehaviour
     public Camera cameraComponent;
     public AudioListener audioListener;
     public int cameraSpeed = 5;
-    private bool tryToFindPlayer = true;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

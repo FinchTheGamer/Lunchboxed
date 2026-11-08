@@ -10,7 +10,7 @@ public class GameManagerScript : MonoBehaviour
 {
     private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
     public GameObject attackHitBox;
-    public PlayerScript playerScript;
+    public NewPlayerScript playerScript;
     public BoxCollider2D attackHitBoxCollider2D;
     public GameObject player;
     public Text text;
@@ -35,9 +35,9 @@ public class GameManagerScript : MonoBehaviour
         
         attackHitBox.transform.position = new Vector3(0, 0, 0);
         player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<PlayerScript>();
+        playerScript = player.GetComponent<NewPlayerScript>();
         playerDies.AddListener(playerScript.Die);
-        perfectlySafeToReloadKeys.AddListener(playerScript.reloadKeyConnections);
+        perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
         Lives = 3;
         Coins = 0;
         text.text = "Lives: " + Lives.ToString();

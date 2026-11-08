@@ -7,7 +7,9 @@ public class endFlagScript : MonoBehaviour
     public UnityEvent nextLevel;
     void Start()
     {
-        nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>().newLevel);
+        //nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>().newLevel);
+        nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<NewPlayerScript>().newLevel);
+        //Debug.Log(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<NewPlayerScript>().name);
         nextLevel.AddListener(GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>().endLevelandLoadNextOne);
         
     }
@@ -16,7 +18,7 @@ public class endFlagScript : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("PlayerTag"))
+        if(other.CompareTag("PlayerTag")) // we are the player tag right?
         {
             nextLevel.Invoke(); //how many times does this run? what if this is being... added twice?
             //fixed the problem here! The code was connecting to the flag twice!
