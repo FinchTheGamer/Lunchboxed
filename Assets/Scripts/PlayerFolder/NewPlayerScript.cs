@@ -31,7 +31,9 @@ public class NewPlayerScript : MonoBehaviour
             value = isTouchingGround; //no one gets to change isTouchingGround
         }
     }
-
+    private bool isFalling;
+    public bool IsFalling { get { return isFalling; } private set { isFalling = value; } }
+    
     private bool isGameOver = false;
     private bool isInvincibile = false;
     private float invincibilityFramesRemaining = 0; //defaults to 1
@@ -121,7 +123,7 @@ public class NewPlayerScript : MonoBehaviour
 
         //playerAnimator.SetBool("isFalling", false);
         PlayerCurrentAnimationBool?.Invoke("isFalling", false);
-
+        isFalling = false;
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
             takeDamage.Invoke();
@@ -153,6 +155,7 @@ public class NewPlayerScript : MonoBehaviour
         {
             //playerAnimator.SetBool("isFalling", false);
             PlayerCurrentAnimationBool?.Invoke("isFalling", false);
+            isFalling = false;
         }
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
@@ -175,7 +178,8 @@ public class NewPlayerScript : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         PlayerCurrentAnimationBool?.Invoke("isFalling", true); //this is our key point! apparently, its never being set to true
-
+        isFalling = true;
+        //why won't it be being set to true? is it updating at all? it appears to be...
         if (isTouchingGround && collision.gameObject.layer == 6)
         {
             isTouchingGround = false;

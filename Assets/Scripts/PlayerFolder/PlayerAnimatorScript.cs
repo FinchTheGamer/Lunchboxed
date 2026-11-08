@@ -61,9 +61,8 @@ public class PlayerAnimatorScript : MonoBehaviour
     private void SetCurrentPlayerFallingState(string name, bool ciertoOFalso)
     {
         //Debug.Log("yooo animation is like sick man");
-        if (name == "isFalling") { IsFalling = ciertoOFalso; }
-        Debug.Log("The name is " + name); //this is being called///
-        Debug.Log("And according to isFalling, the player is falling is a " + ciertoOFalso + " statement.");
+        //if (name == "isFalling") { IsFalling = ciertoOFalso; } // is this expensive?
+        IsFalling = ciertoOFalso;
         playerAnimator.SetBool(name, ciertoOFalso);
     }
     private void SetPlayerSpriteDirection(bool isFacingRightward) //not to be confused with the global

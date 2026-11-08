@@ -157,7 +157,7 @@ namespace playerCode
         }
         private void OnCollisionStay2D(Collision2D collision)
         {
-
+           
             isTouchingGround = collision.gameObject.layer == 6;
             if(isTouchingGround)
             {

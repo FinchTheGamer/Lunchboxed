@@ -90,7 +90,7 @@ public class PlayerControllerScript : MonoBehaviour
             //FlipCharacterSpriteDirection.Invoke();
         }
         
-        if (playerDirection != 0 && !(playerAnimatorScript.IsFalling))
+        if (playerDirection != 0 && !(playerScript.IsFalling)) ///wait... why does controller depend on the animator???
         {
             //playerAnimator.SetBool("isRunning", true);
             setPlayerAnimationBool.Invoke("isRunning", true);
