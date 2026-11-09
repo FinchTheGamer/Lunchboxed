@@ -23,15 +23,17 @@ public class ToyScript : MonoBehaviour
     float scale;
     int shouldFlip = 1;
     GameObject player; //I think I lost my mind writing this script. It's likely I'll have to disable all this code;
-    PlayerScript playerScript;
+    NewPlayerScript playerScript;
+    PlayerMovement playerMovementScript;
     public SpriteRenderer spriteRenderer;
     private string apology = "I'm sorry for spilling all your coffee";
     void Start()
     {
         originalScale = transform.localScale;
         player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<PlayerScript>();
-        Destroy(gameObject); //ha suicidal code;
+        playerScript = player.GetComponent<NewPlayerScript>();
+        playerMovementScript = player.GetComponentInChildren<PlayerMovement>();
+        //Destroy(gameObject); //ha suicidal code;
     }
     float thePlayersDirection = 1;
     void Update()
@@ -73,12 +75,12 @@ public class ToyScript : MonoBehaviour
     
     private float SetPlayerDirection() //so... so... tired
     {
-        if(playerScript.playerDirection > 0) //what does this return?
+        if(playerMovementScript.PlayerDirection > 0) //what does this return?
         {
             Debug.Log("Returning: " + (1 * shouldFlip));
             return 1 * shouldFlip;
         }
-        else if(playerScript.playerDirection < 0)
+        else if(playerMovementScript.PlayerDirection < 0)
         {
             Debug.Log("Returning: " + (-1 * shouldFlip));
             return -1 * shouldFlip;

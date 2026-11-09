@@ -4,7 +4,7 @@ using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.Events;
 //should be swapped with delegates later...
-public class PlayerControllerScript : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private GameObject character;
     public GameObject Player
@@ -43,7 +43,9 @@ public class PlayerControllerScript : MonoBehaviour
     //time for a lesson On delegates! See below!
     private bool isTouchingGround = false;
     
-    private float playerDirection;
+    private float playerDirection; //is the latter really necessary?
+
+    public float PlayerDirection { get { return playerDirection; } private set { playerDirection = value; } }
     private int jumpStrength;
     private int speed;
 

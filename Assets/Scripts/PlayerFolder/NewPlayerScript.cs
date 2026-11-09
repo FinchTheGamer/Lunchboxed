@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -66,6 +67,11 @@ public class NewPlayerScript : MonoBehaviour
     {
         currentLevel++; //this needs to be the only time that the level is updated.
 
+        Debug.Log("There are " + currentLevel + " levels and " + database.respawnLocations.Length + " in the list.");
+        foreach(Vector2 level in database.respawnLocations)
+        {
+            Debug.Log(level);
+        }
 
         transform.position = database.respawnLocations[currentLevel]; // okay so it shifts to the next level
                                                                       //alright alright so the above is running but the below isn't
@@ -77,7 +83,7 @@ public class NewPlayerScript : MonoBehaviour
     private void ConnectReferences()
     {
         //Debug.Log(transform.parent.gameObject); //we can't find our dad
-        //we are the dad!
+        //we are the dad! // or the mother?
         playerInventory = GameObject.Find("PlayerInventory"); //hopefully this returns our sibling, PlayerInventory
         // it can't find the playerInventory
         playerInventoryScript = playerInventory.GetComponent<PlayerInventoryScript>();
@@ -122,6 +128,7 @@ public class NewPlayerScript : MonoBehaviour
         //collision.collider.gameObject refers to the parent or child, depending on who was hit.
 
         //playerAnimator.SetBool("isFalling", false);
+        isTouchingGround = ((collision.gameObject.layer == 6));
         PlayerCurrentAnimationBool?.Invoke("isFalling", false);
         isFalling = false;
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
@@ -151,6 +158,7 @@ public class NewPlayerScript : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         isTouchingGround = ((collision.gameObject.layer == 6)); //hmm... how often should this run? I don't want to force isTouchingGround to constantly flip!
+        //THEN AGAIN
         if (isTouchingGround)
         {
             //playerAnimator.SetBool("isFalling", false);

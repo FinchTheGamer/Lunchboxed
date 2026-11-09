@@ -30,7 +30,7 @@ public class EnemyHurtBoxScript : MonoBehaviour
         {
             if (collision.otherCollider == enemyHurtBox) //for some strange reason, "otherCollider" is OUR collider
             {
-                enemy.GetComponent<EnemyScript>().EnemyHealth--;
+                enemy.GetComponent<EnemyScript>().EnemyHealth--; //destroyed but I keep tryna access it?
                 if (enemy.GetComponent<EnemyScript>().EnemyHealth <= 0)
                 {
                     Destroy(enemy); //WARNING! Enemy only tries to die the moment it hits 0

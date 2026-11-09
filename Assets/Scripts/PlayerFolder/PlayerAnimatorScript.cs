@@ -4,7 +4,7 @@ public class PlayerAnimatorScript : MonoBehaviour
 {
     GameObject player;
     NewPlayerScript playerScript;
-    PlayerControllerScript playerControllerScript;
+    PlayerMovement playerMovement;
     SpriteRenderer playerSpriteRenderer;
     private  Animator playerAnimator;
     private bool isFalling; // I'm not sure the event updating this is being connected
@@ -26,16 +26,16 @@ public class PlayerAnimatorScript : MonoBehaviour
         player = transform.parent.gameObject;
         playerScript = player.GetComponent<NewPlayerScript>();
 
-        playerControllerScript = player.GetComponentInChildren<PlayerControllerScript>();
+        playerMovement = player.GetComponentInChildren<PlayerMovement>();
 
         //if we are falling
         playerScript.PlayerCurrentAnimationBool += SetCurrentPlayerFallingState; //we are subscribing!
 
         //is this even connected?
         // is this below if we are running? we need better names
-        playerControllerScript.setPlayerAnimationBool += SetCurrentPlayerAnimation;
+        playerMovement.setPlayerAnimationBool += SetCurrentPlayerAnimation;
         //Player's current direction
-        playerControllerScript.OnSetPlayerSpriteDirection += SetPlayerSpriteDirection;
+        playerMovement.OnSetPlayerSpriteDirection += SetPlayerSpriteDirection;
 
         playerSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         playerAnimator = gameObject.GetComponent<Animator>();
@@ -43,8 +43,8 @@ public class PlayerAnimatorScript : MonoBehaviour
     private void OnDestroy()
     {
         playerScript.PlayerCurrentAnimationBool -= SetCurrentPlayerAnimation;
-        playerControllerScript.setPlayerAnimationBool -= SetCurrentPlayerAnimation;
-        playerControllerScript.OnSetPlayerSpriteDirection -= SetPlayerSpriteDirection;
+        playerMovement.setPlayerAnimationBool -= SetCurrentPlayerAnimation;
+        playerMovement.OnSetPlayerSpriteDirection -= SetPlayerSpriteDirection;
     }
     private void SetCurrentPlayerAnimation(string name, bool ciertoOFalso)
     {

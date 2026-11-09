@@ -16,6 +16,7 @@ public class JellyKingScript : EnemyScript
     private UnityEvent kickStartProjectile;
     private Transform projectileSpawnLocation;
     private Rigidbody2D rigidbody2D; //I DIDN'T KNOW YOU COULD HAVE NUMBERS IN THE VARIABLE NAME
+    
     [SerializeField] private DatabaseScriptableObject database;
 
     public event Action<Vector3> SetProjectileSpeed;
@@ -58,6 +59,7 @@ public class JellyKingScript : EnemyScript
     {
         
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         //JellyKingDelegate sendMoveDirection = (moveDirectionX,moveDirectionY,moveTowardsZ) => { }; //creates a quick lil lambda that just returns the MoveDirection
         projectileSpawnLocation = transform.Find("ProjectileSpawnLocation");
         StartCoroutine(StartJellyKingAttack()); //it can't find its own coroutine? //now it just stoppped calling the coroutine

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using playerCode;
 using UnityEngine;
@@ -12,30 +13,25 @@ public class MovableTileScript : MonoBehaviour
     [SerializeField] private int changeInZ = 0;
     private bool isOpen = false;
     private bool doesPlayerHaveKey;
-    [SerializeField] private string requiredKeyForThisTile = "00000000";
+    [SerializeField] private string requiredKeyForThisTile;
 
     const float SNAPDISTANCE = 0.01f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        //temp
-        
-        
-    }
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //i could make a temporary variable here... but that would be expensive for the memory
-        if (collision.gameObject.GetComponent<PlayerScript>() != null)
+        if (collision.gameObject.GetComponentInChildren<PlayerInventoryScript>() != null)
         {
-            doesPlayerHaveKey = collision.gameObject.GetComponent<PlayerScript>().Backpack.Contains(requiredKeyForThisTile);
-            //probably very inefficient. Croissant would yell at me so bad
+            doesPlayerHaveKey = collision.gameObject.GetComponentInChildren<PlayerInventoryScript>().Backpack.Contains(requiredKeyForThisTile);
         }
-        else
-        {
-            doesPlayerHaveKey = collision.gameObject.GetComponentInChildren<PlayerInventoryScript>();
-        }
-        if (collision.gameObject.CompareTag("PlayerTag") && !isOpen && doesPlayerHaveKey) //if the player touches this and has the key
+        Debug.Log("Required key: " + requiredKeyForThisTile);
+        Debug.Log("Contents of Backpack:");
+        foreach (string key in collision.gameObject.GetComponentInChildren<PlayerInventoryScript>().Backpack) { Debug.Log(key); }
+        
+        //I don't think I need the above...
+        
+        if ((collision.gameObject.CompareTag("PlayerTag") && !isOpen && doesPlayerHaveKey)) //if the player touches this and has the key
         {
             StartCoroutine(ExperimentalOpen());
            

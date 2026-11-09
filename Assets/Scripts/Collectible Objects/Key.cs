@@ -51,7 +51,7 @@ public class Key : CollectableObjectScript
         Debug.Log("This ran");
         keyCollected?.Invoke(thisKey); //SO FOR SOMEREASON THIS IS FAILING
         //i need to figure out if this is never transmitting or if the receiver is never receiving
-
+        //its... its failing again...
 
         // below is unrelated
 

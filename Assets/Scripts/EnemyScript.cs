@@ -3,6 +3,7 @@ using playerCode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 public class EnemyScript : MonoBehaviour
 {
     public Rigidbody2D enemyRigidBody;
@@ -26,10 +27,11 @@ public class EnemyScript : MonoBehaviour
             enemyHealth = value;
         }
     }
-    
+    float sineValue;
+    float scale;
     public Rigidbody2D playerRigidBody;
     protected Vector3 localScale;
-    
+    protected Vector3 ORIGINALLOCALSCALE;
     public enum EnemyModifierType
     {
         Normal,
@@ -66,6 +68,7 @@ public class EnemyScript : MonoBehaviour
         playerRigidBody = player.GetComponent<Rigidbody2D>();
         enemyRigidBody = gameObject.GetComponent<Rigidbody2D>(); //let's practice getting our components manually.
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        ORIGINALLOCALSCALE = transform.localScale;
         //what kind of enemy are we?
         
 
@@ -87,15 +90,19 @@ public class EnemyScript : MonoBehaviour
 
     }
     
-
+    //shoot
     // Update is called once per frame
     void Update()
     {
         enemyRigidBody.linearVelocity = new Vector2(enemyMoveSpeed * direction, enemyRigidBody.linearVelocityY);
+        //sineValue = Mathf.Sin(Time.time * 0.5f);
+        //scale = 0.5f + (sineValue * sineValue); //now how does this math work? 1 is a bit of a magic number, and then we square the sign. To get a nicer bigger number that isn't negative.0.5 stops it from being zero
+        //transform.localScale = new Vector3(ORIGINALLOCALSCALE.x, (ORIGINALLOCALSCALE.y * scale), ORIGINALLOCALSCALE.z);
         //transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), enemyMoveSpeed * Time.deltaTime);
         // the enemy will move from its position, to a new Vector3. This vector 3 has the x and z values of the player, but the y value of the enemy, so the enemy shouldn't fly.
-        
-        
+        //transform.localScale = new Vector3(transform.localScale.x, ORIGINALLOCALSCALE.y*(Mathf.Abs(Mathf.Sin(Time.time)))+0.25f, transform.localScale.z); //10 is a delicious magic number
+
+
     }
     public void turnAround()
     {
