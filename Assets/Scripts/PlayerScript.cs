@@ -68,7 +68,7 @@ namespace playerCode
             {
                 takeDamage = new UnityEvent(); //if this event isn't already assigned, then begin to assign it
             }
-            takeDamage.AddListener(GAME.PlayerTakesDamage);
+            //takeDamage.AddListener(GAME.PlayerTakesDamage);
             gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
 
         }

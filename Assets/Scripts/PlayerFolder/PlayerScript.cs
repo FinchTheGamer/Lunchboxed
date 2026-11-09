@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class NewPlayerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     //Is it okay for this to double as a general controller and a hurtbox?
     [SerializeField] private DatabaseScriptableObject database;
     public UnityEvent reloadKeyConnections;
     public UnityEvent gameOver;
     public UnityEvent takeDamage;
+    //should the player control them taking damage? no... the GAME should rip the damage from the player
+    //public delegate void TakeDamageAction(int damage);
+    //public event TakeDamageAction OnTakeDamage; I spent time writing these before realizing the game manager only really needs to read
     public delegate void ReturnRecoilDelegate(Vector3 wheretheenemyis);
     //still don't get delegates, never will
     public event ReturnRecoilDelegate ReturnRecoil;
@@ -51,7 +54,12 @@ public class NewPlayerScript : MonoBehaviour
         }
     }
 
-
+    private int lives = 3;
+    public int Lives // turns out moving this to the player didn't take much work at all!
+    {
+        get { return lives; }
+        set { lives = value; if (value < 1) { lives = 0; } } // I could do something funny here and make lives equal abs(lives)
+    } //doesn't work that bad at all!
 
     private void recoil(Vector3 locationOfEnemy)
     {
@@ -61,17 +69,13 @@ public class NewPlayerScript : MonoBehaviour
     {
         transform.position = database.respawnLocations[currentLevel];
         isGameOver = true;
-        gameOver.Invoke();
+        gameOver.Invoke(); //calls game over
     }
     public void newLevel()
     {
         currentLevel++; //this needs to be the only time that the level is updated.
 
-        Debug.Log("There are " + currentLevel + " levels and " + database.respawnLocations.Length + " in the list.");
-        foreach(Vector2 level in database.respawnLocations)
-        {
-            Debug.Log(level);
-        }
+        
 
         transform.position = database.respawnLocations[currentLevel]; // okay so it shifts to the next level
                                                                       //alright alright so the above is running but the below isn't
@@ -95,13 +99,17 @@ public class NewPlayerScript : MonoBehaviour
         {
             takeDamage = new UnityEvent(); //if this event isn't already assigned, then begin to assign it
         }
-        takeDamage.AddListener(GAME.PlayerTakesDamage);
+        //takeDamage.AddListener(GAME.PlayerTakesDamage);
     }
-
+    public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
     void Start()
     {
         ConnectReferences();
         DontDestroyOnLoad(gameObject);
+    }
+    private void TakeDamage(int damageInt)
+    {
+        Lives -= damageInt;
     }
     private void Update()
     {
@@ -133,7 +141,9 @@ public class NewPlayerScript : MonoBehaviour
         isFalling = false;
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
-            takeDamage.Invoke();
+            //good thing I seperated them earlier
+            TakeDamage(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
+            //how are we going to pass the damage...
             Debug.Log("The player has taken damage!");
             Vector3 location_of_enemy = collision.transform.position;
             recoil(location_of_enemy);
@@ -143,7 +153,7 @@ public class NewPlayerScript : MonoBehaviour
         }
         if ((collision.gameObject.CompareTag("ObstacleTag") || collision.gameObject.layer == 9) && (invincibilityFramesRemaining == 0))
         {
-            takeDamage.Invoke();
+            TakeDamage(1); //defaults to 1...
 
             Vector3 location_of_enemy = collision.transform.position;
             recoil(location_of_enemy);
@@ -167,7 +177,7 @@ public class NewPlayerScript : MonoBehaviour
         }
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
-            takeDamage.Invoke();
+            TakeDamage(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
             Debug.Log("The player has taken damage!");
             isInvincibile = true;
             invincibilityFramesRemaining = 1;
@@ -175,7 +185,7 @@ public class NewPlayerScript : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("ObstacleTag") && (invincibilityFramesRemaining == 0)) // if an obstacle has been hit
         {
-            takeDamage.Invoke();
+            TakeDamage(1);
 
             Vector3 location_of_enemy = collision.transform.position;
             recoil(location_of_enemy);

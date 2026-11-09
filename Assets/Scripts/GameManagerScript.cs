@@ -10,23 +10,19 @@ public class GameManagerScript : MonoBehaviour
 {
     private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
     public GameObject attackHitBox;
-    public NewPlayerScript playerScript;
+    public PlayerScript playerScript;
     public BoxCollider2D attackHitBoxCollider2D;
     public GameObject player;
     public Text text;
     [SerializeField] private Text coinCount;
-    [SerializeField] private int lives = 3;
+    private int lives = 3;
     public GameObject TurnFlag;
 
     public UnityEvent playerDies;
     public UnityEvent perfectlySafeToReloadKeys;
     
     
-    public int Lives
-    {
-        get { return lives; }
-        set { lives = value; if (value < 1) { lives = 0; } }
-    }
+    
     public int Coins { get; set; }
     
     void Start()
@@ -35,12 +31,12 @@ public class GameManagerScript : MonoBehaviour
         
         attackHitBox.transform.position = new Vector3(0, 0, 0);
         player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<NewPlayerScript>();
+        playerScript = player.GetComponent<PlayerScript>();
         playerDies.AddListener(playerScript.Die);
         perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
-        Lives = 3;
+        playerScript.Lives = 3;
         Coins = 0;
-        text.text = "Lives: " + Lives.ToString();
+        text.text = "Lives: " + playerScript.Lives.ToString();
         coinCount.text = ": " + Coins.ToString();
         Instantiate(TurnFlag, new Vector2(5f, -3.5f), Quaternion.identity);
         //GOAL: when the player presses x, teleport the attackHitBox to the player.
@@ -53,10 +49,10 @@ public class GameManagerScript : MonoBehaviour
             attackHitBox.transform.position = player.transform.position + new Vector3(1, 0, 0);
         }
         //EXPENSIVE
-        text.text = "Lives: " + Lives.ToString(); //To String is expensive. Concatenation makes it even more expensive. Strings are immutable, so this allocated memory on the heap every frame
+        text.text = "Lives: " + playerScript.Lives.ToString(); //To String is expensive. Concatenation makes it even more expensive. Strings are immutable, so this allocated memory on the heap every frame
         coinCount.text = ": " + Coins.ToString();
         //try stringbuilder instead
-        if (Lives <= 0)
+        if (playerScript.Lives <= 0)
         {
             playerDies.Invoke();
             endGame();
@@ -96,13 +92,13 @@ public class GameManagerScript : MonoBehaviour
             endGame();
 
         }
-        
+        //its been a while since I've touched this code.
 
     }
-    public void PlayerTakesDamage()
-    {
-        Lives--;
-    }
+    //public void PlayerTakesDamage()
+    //{
+    //    playerScript.Lives--;
+    //}
     private void endGame()
     {
         Time.timeScale = 0f;
@@ -114,7 +110,7 @@ public class GameManagerScript : MonoBehaviour
 
     public void DebugInstantDeath()
     {
-        Lives = 0;
+        playerScript.Lives = 0;
     }
 }
     

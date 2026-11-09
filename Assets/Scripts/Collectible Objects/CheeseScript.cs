@@ -13,7 +13,7 @@ public class Cheese : CollectableObjectScript
         //we need to make this... do what?
         GameObject Player = GameObject.FindGameObjectWithTag("PlayerTag");
         PlayerScript playerScript  = Player.GetComponent<PlayerScript>();
-        CollectThisCheese.AddListener(playerScript.CollectPowerUp); //what?
+        //CollectThisCheese.AddListener(playerScript.CollectPowerUp); //what?
         //how can I return this?
     }
 }

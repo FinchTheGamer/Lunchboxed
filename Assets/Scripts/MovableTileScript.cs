@@ -25,9 +25,7 @@ public class MovableTileScript : MonoBehaviour
         {
             doesPlayerHaveKey = collision.gameObject.GetComponentInChildren<PlayerInventoryScript>().Backpack.Contains(requiredKeyForThisTile);
         }
-        Debug.Log("Required key: " + requiredKeyForThisTile);
-        Debug.Log("Contents of Backpack:");
-        foreach (string key in collision.gameObject.GetComponentInChildren<PlayerInventoryScript>().Backpack) { Debug.Log(key); }
+        
         
         //I don't think I need the above...
         

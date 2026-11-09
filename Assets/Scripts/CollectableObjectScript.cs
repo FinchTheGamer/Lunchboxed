@@ -10,7 +10,10 @@ public class CollectableObjectScript : MonoBehaviour
     [SerializeField] private Key keyScript;
     protected GameManagerScript gameManagerScript;
     public UnityEvent itemCollected;
-    
+
+    float sine;
+   
+    private Vector3 SITTINGPOSITION;
     public string Type
     {
         get { return type; }
@@ -41,7 +44,10 @@ public class CollectableObjectScript : MonoBehaviour
         setSpriteViaIndex(typeIndex);
     }
 
-
+    private void Awake()
+    {
+        SITTINGPOSITION = transform.position; //dangerous to set things in awake, ain't it
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerTag"))
@@ -50,6 +56,16 @@ public class CollectableObjectScript : MonoBehaviour
             collectThisItem();
             
         }
+    }
+    private void FixedUpdate() //what on earth is fixed update?
+    {
+        
+        sine = Mathf.Sin(Time.time);
+        //WE GOT THE JUICE IT FEELS GOOD I DON'T LIKE HOW THEY BOB IN UNION
+        
+        transform.position = new Vector3(transform.position.x, (((SITTINGPOSITION.y) + (sine * 0.1f))), transform.position.z); //gotta change that y value
+        //guh all of them are shifting up whyy
+        //why minus 1? I don't know, but for some reason it works half the time
     }
     protected virtual void collectThisItem()
     {

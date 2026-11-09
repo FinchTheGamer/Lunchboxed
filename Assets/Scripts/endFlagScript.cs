@@ -5,10 +5,17 @@ public class endFlagScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public UnityEvent nextLevel;
+    float cosine;
+    Vector3 SITTINGPOSITION;
+    //I think this should move along a cosine. Expensive?
+    private void Awake()
+    {
+        SITTINGPOSITION = transform.position; 
+    }
     void Start()
     {
         //nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>().newLevel);
-        nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<NewPlayerScript>().newLevel);
+        nextLevel.AddListener(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>().newLevel);
         //Debug.Log(GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<NewPlayerScript>().name);
         nextLevel.AddListener(GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>().endLevelandLoadNextOne);
         
@@ -24,6 +31,11 @@ public class endFlagScript : MonoBehaviour
             //fixed the problem here! The code was connecting to the flag twice!
         }
     }
-  
-   
+    private void FixedUpdate()
+    {
+        cosine = Mathf.Cos(Time.time);
+        transform.position = new Vector3(SITTINGPOSITION.x, (SITTINGPOSITION.y + (cosine * 0.1f)), SITTINGPOSITION.z);
+    }
+
+
 }

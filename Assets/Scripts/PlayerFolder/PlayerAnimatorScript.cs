@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerAnimatorScript : MonoBehaviour
 {
     GameObject player;
-    NewPlayerScript playerScript;
+    PlayerScript playerScript;
     PlayerMovement playerMovement;
     SpriteRenderer playerSpriteRenderer;
     private  Animator playerAnimator;
@@ -24,7 +24,7 @@ public class PlayerAnimatorScript : MonoBehaviour
     private void ConnectReferences()
     {
         player = transform.parent.gameObject;
-        playerScript = player.GetComponent<NewPlayerScript>();
+        playerScript = player.GetComponent<PlayerScript>();
 
         playerMovement = player.GetComponentInChildren<PlayerMovement>();
 

@@ -1,6 +1,6 @@
 using System;
 using Unity.VisualScripting;
-using UnityEditor.Events;
+
 using UnityEngine;
 using UnityEngine.Events;
 //should be swapped with delegates later...
@@ -29,8 +29,9 @@ public class PlayerMovement : MonoBehaviour
             character = value;
         }
     }
-    NewPlayerScript playerScript;
+    PlayerScript playerScript;
     Rigidbody2D characterRigidBody;
+    PlayerControllerScript playerControllerScript;
 
     PlayerAnimatorScript playerAnimatorScript;
 
@@ -66,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnDestroy() //could do this for OnDisable, don't feel like it
     {
-        Player.GetComponent<NewPlayerScript>().ReturnRecoil -= Recoil;
+        Player.GetComponent<PlayerScript>().ReturnRecoil -= Recoil;
     }
     private void MovementHandler()
     {
@@ -76,7 +77,9 @@ public class PlayerMovement : MonoBehaviour
             characterRigidBody.linearVelocity = new Vector2(0, 1) * jumpStrength; //setting this value equal to a vector will be different to adding a vectory onto the value
         }
         playerDirection = Input.GetAxis("Horizontal");
+
         characterRigidBody.linearVelocity = new Vector2(playerDirection * speed, characterRigidBody.linearVelocityY);
+
         if (characterRigidBody.linearVelocityX < 0)
         {
             //playerSpriteRenderer.flipX = false;
@@ -107,9 +110,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Player = gameObject.transform.parent.transform.gameObject; //our game object's transform's parent's transform's game object (so just the parent of this game object)
         characterRigidBody = Player.GetComponent<Rigidbody2D>();
-        playerScript = Player.GetComponent<NewPlayerScript>();
+        playerScript = Player.GetComponent<PlayerScript>();
         playerAnimatorScript = Player.GetComponentInChildren<PlayerAnimatorScript>();
-        Player.GetComponent<NewPlayerScript>().ReturnRecoil += Recoil;
+        playerControllerScript = Player.GetComponentInChildren<PlayerControllerScript>();
+        Player.GetComponent<PlayerScript>().ReturnRecoil += Recoil;
+        //oh shoot so when I broad cast the message...
     }
     private void recoil(Vector3 positionOfObjectThatYouHit)
     {

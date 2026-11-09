@@ -854,7 +854,6 @@ MonoBehaviour:
   player: {fileID: 1723238274}
   text: {fileID: 735403445}
   coinCount: {fileID: 755631265}
-  lives: 3
   TurnFlag: {fileID: 6749737314824150661}
   playerDies:
     m_PersistentCalls:
@@ -3286,6 +3285,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (Better)
       objectReference: {fileID: 0}
+    - target: {fileID: 8784274832988340561, guid: c482597cbb09fc84dbb3cef316015f86, type: 3}
+      propertyPath: database
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f8d75bfe1d23454da960456dce26a1f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3310,7 +3313,7 @@ PrefabInstance:
     - target: {fileID: 4012800454555586270, guid: 698e24d1760d4be45aac5b7218fb9d5d, type: 3}
       propertyPath: playerScript
       value: 
-      objectReference: {fileID: 1723238279}
+      objectReference: {fileID: 0}
     - target: {fileID: 4012800454555586270, guid: 698e24d1760d4be45aac5b7218fb9d5d, type: 3}
       propertyPath: playerRigidBody
       value: 

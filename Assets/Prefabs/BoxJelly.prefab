@@ -449,7 +449,7 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   gameManagerScript: {fileID: 0}
   playerRigidBody: {fileID: 0}
-  enemyModifierType: 0
+  enemyModifierType: 2
 --- !u!61 &2152925796547463102
 BoxCollider2D:
   m_ObjectHideFlags: 0

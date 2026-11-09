@@ -16,6 +16,8 @@ public class EnemyScript : MonoBehaviour
     protected int direction = -1;
     private float enemyMoveSpeed = 1;
     private int enemyHealth = 1;
+    private int enemyDamage = 1;
+    public int EnemyDamage { get { return enemyDamage; } private set { enemyDamage = value; } }
     public int EnemyHealth
     {
         get
@@ -70,7 +72,7 @@ public class EnemyScript : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         ORIGINALLOCALSCALE = transform.localScale;
         //what kind of enemy are we?
-        
+        //it'll depend on that, a lot of stats
 
         playerScript = player.GetComponent<PlayerScript>();
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
@@ -86,6 +88,7 @@ public class EnemyScript : MonoBehaviour
         EnemyTypeAttributes enemyTypeAttributes = (EnemyTypeAttributes)enemyTypeHashmap[enemyModifierType]; //our type attributes equal the one from the hashtable
         Debug.Log("I am " + enemyModifierType + " and my colour is "+ enemyTypeAttributes.enemyTypeColor); //what??
         enemyMoveSpeed = enemyTypeAttributes.enemyTypeSpeed; //sets speed
+        enemyDamage = enemyTypeAttributes.enemyTypeDamage;
         spriteRenderer.color = enemyTypeAttributes.enemyTypeColor; //sets colour
 
     }
@@ -110,6 +113,7 @@ public class EnemyScript : MonoBehaviour
         localScale = transform.localScale; //so that we can modify it, because localscale.x is normally read only
         localScale.x *= -1;
         transform.localScale = localScale; 
+        //above is probably the smartest math you'll see in this project, except for a sine wave or cosine here and there
     }
     
     
@@ -121,9 +125,13 @@ public class EnemyScript : MonoBehaviour
         {
             turnAround();
         }
+        if (collision.gameObject.CompareTag("DeathzoneTag"))
+        {
+            Destroy(gameObject);
+        }
         
     }
-    private void followPlayer()
+    private void followPlayer() // should I flag this for destruction? No child even utilizes it...
     {
         if (transform.position.x < player.transform.position.x)
         {

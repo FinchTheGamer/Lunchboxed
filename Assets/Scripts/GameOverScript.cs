@@ -6,14 +6,14 @@ public class GameOverScript : MonoBehaviour
 {
     
     SpriteRenderer spriteRenderer;
-    NewPlayerScript playerScript;
+    PlayerScript playerScript;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
-        playerScript = GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<NewPlayerScript>();
+        playerScript = GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>();
         DontDestroyOnLoad(gameObject);
     }
     public void runGameOver()

@@ -23,7 +23,7 @@ public class ToyScript : MonoBehaviour
     float scale;
     int shouldFlip = 1;
     GameObject player; //I think I lost my mind writing this script. It's likely I'll have to disable all this code;
-    NewPlayerScript playerScript;
+    PlayerScript playerScript;
     PlayerMovement playerMovementScript;
     public SpriteRenderer spriteRenderer;
     private string apology = "I'm sorry for spilling all your coffee";
@@ -31,7 +31,7 @@ public class ToyScript : MonoBehaviour
     {
         originalScale = transform.localScale;
         player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<NewPlayerScript>();
+        playerScript = player.GetComponent<PlayerScript>();
         playerMovementScript = player.GetComponentInChildren<PlayerMovement>();
         //Destroy(gameObject); //ha suicidal code;
     }

@@ -19,6 +19,9 @@ TagManager:
   - MoveableTileTag
   - JellyKingTag
   - PlayerControllerTag
+  - DeathzoneTag
+  - DisableCameraFollowPlayerFlagTag
+  - EnableCameraFollowPlayerFlagTag
   layers:
   - Default
   - TransparentFX
