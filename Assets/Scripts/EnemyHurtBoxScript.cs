@@ -19,6 +19,7 @@ public class EnemyHurtBoxScript : MonoBehaviour
             Debug.Log(e);
             isEnemySpawnerScriptNull = true;
         }
+        enemy = gameObject.transform.parent.gameObject; //let's just get our parent
     }
 
     // Update is called once per frame

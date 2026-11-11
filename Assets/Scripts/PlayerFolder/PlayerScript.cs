@@ -142,6 +142,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
             //good thing I seperated them earlier
+            Debug.Log(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
             TakeDamage(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
             //how are we going to pass the damage...
             Debug.Log("The player has taken damage!");

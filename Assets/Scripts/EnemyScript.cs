@@ -121,7 +121,7 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("TurnFlagTag"))
+        if (collision.gameObject.CompareTag("TurnFlagTag")) //wait am I doing this twice? uh oh
         {
             turnAround();
         }

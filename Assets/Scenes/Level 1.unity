@@ -2107,6 +2107,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lemion
       objectReference: {fileID: 0}
+    - target: {fileID: 8137587321286808808, guid: c8404d566995ea4428ce3f0e0c010416, type: 3}
+      propertyPath: m_TagString
+      value: EnemyTag
+      objectReference: {fileID: 0}
     - target: {fileID: 8369298026370078481, guid: c8404d566995ea4428ce3f0e0c010416, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
       value: 0.5
@@ -3328,7 +3332,7 @@ PrefabInstance:
       objectReference: {fileID: 612474823}
     - target: {fileID: 4677582665427945593, guid: 698e24d1760d4be45aac5b7218fb9d5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4677582665427945593, guid: 698e24d1760d4be45aac5b7218fb9d5d, type: 3}
       propertyPath: m_LocalPosition.y
