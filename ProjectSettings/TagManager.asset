@@ -22,6 +22,8 @@ TagManager:
   - DeathzoneTag
   - DisableCameraFollowPlayerFlagTag
   - EnableCameraFollowPlayerFlagTag
+  - LivesTextTag
+  - CoinsCollectedTag
   layers:
   - Default
   - TransparentFX

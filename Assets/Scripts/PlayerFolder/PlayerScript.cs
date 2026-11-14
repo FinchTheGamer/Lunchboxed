@@ -19,6 +19,12 @@ public class PlayerScript : MonoBehaviour
     public event ReturnRecoilDelegate ReturnRecoil;
     public delegate void SetPlayerCurrentAnimationBool(string animationName, bool ciertoOFalso);
     public event SetPlayerCurrentAnimationBool PlayerCurrentAnimationBool;
+    public delegate void SetLiveCountAction(int newLiveCount);
+    public event SetLiveCountAction OnSetLiveCount; //get the GAME to subscribe to this
+    //public delegate void SetCoinCountAction(int newCoinCount);
+    //public event SetCoinCountAction OnSetCoinCount; //the player... for some reason... doesn't control their coin count... the coin does... this is a travesty
+    // we should flay whoever wrote all this
+    //I wrote all this
     private GameManagerScript GAME;
     private GameObject playerInventory;
     private PlayerInventoryScript playerInventoryScript;
@@ -111,6 +117,7 @@ public class PlayerScript : MonoBehaviour
     private void TakeDamage(int damageInt)
     {
         Lives -= damageInt;
+        OnSetLiveCount.Invoke(Lives);
     }
     private void Update()
     {

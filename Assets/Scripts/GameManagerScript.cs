@@ -9,14 +9,15 @@ using System.Collections;
 public class GameManagerScript : MonoBehaviour
 {
     private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
-    public GameObject attackHitBox;
-    public PlayerScript playerScript;
-    public BoxCollider2D attackHitBoxCollider2D;
-    public GameObject player;
-    public Text text;
-    [SerializeField] private Text coinCount;
+    private GameObject attackHitBox;
+    private PlayerScript playerScript;
+    private BoxCollider2D attackHitBoxCollider2D;
+    private GameObject player;
+    private Text LivesText;
+    private Text coinCount;
     private int lives = 3;
-    public GameObject TurnFlag;
+    private bool isStartScreen = true;
+    //public GameObject TurnFlag; //why should I be spawning turnflags?
 
     public UnityEvent playerDies;
     public UnityEvent perfectlySafeToReloadKeys;
@@ -28,39 +29,32 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        ConnectReferences();
         if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
         {
+            isStartScreen = false;
+            ConnectReferences();
             OnFirstLevel();
         }
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
-        
 
-        
+
+
+
         //GOAL: when the player presses x, teleport the attackHitBox to the player.
     }
+    
     void Update()
     {
-        
-        if (Input.GetKeyDown(KeyCode.X))
+
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //attackHitBox.transform.position = player.transform.position + new Vector3(1, 0, 0);
+        //}
+        if (!isStartScreen)
         {
-            attackHitBox.transform.position = player.transform.position + new Vector3(1, 0, 0);
+            CheckIfGameOver();
         }
-        //EXPENSIVE
-        text.text = "Lives: " + playerScript.Lives.ToString(); //To String is expensive. Concatenation makes it even more expensive. Strings are immutable, so this allocated memory on the heap every frame
-        coinCount.text = ": " + Coins.ToString();
-        //try stringbuilder instead
-        if (playerScript.Lives <= 0)
-        {
-            playerDies.Invoke();
-            endGame();
-        }
-        if (playerScript.IsGameOver)
-        {
-            endGame();
-        }
-        
     } //wait how will I make any of this code work without... the player?
     private void OnEnable()
     {
@@ -70,24 +64,72 @@ public class GameManagerScript : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded; //though, this should never be disabled really
     }
+   
     private void OnFirstLevel()
     {
+        
+        //remember to connect references
         playerScript.Lives = 3;
         Coins = 0;
 
-        text.text = "Lives: " + playerScript.Lives.ToString();
+        LivesText.text = "Lives: " + playerScript.Lives.ToString();
         coinCount.text = ": " + Coins.ToString();
     }
     private void ConnectReferences()
     {
-        attackHitBox.transform.position = new Vector3(0, 0, 0);
+        //attackHitBox.transform.position = new Vector3(0, 0, 0);
+        //Player
         player = GameObject.FindGameObjectWithTag("PlayerTag");
         playerScript = player.GetComponent<PlayerScript>();
         playerDies.AddListener(playerScript.Die);
         perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
+        playerScript.OnSetLiveCount += UpdateLiveCount;
+        //Player
+        //Lives Text
+        LivesText = GameObject.FindGameObjectWithTag("LivesTextTag").GetComponent<Text>();
+        //Lives Text
+        //Coin Count
+        coinCount = GameObject.FindGameObjectWithTag("CoinsCollectedTag").GetComponent<Text>();
+        //Coin Count
+        //TurnFlag Prefab
+        //TurnFlag Prefab
+    }
+    private void UpdateCoinCount(int newCoinCount) //this shouldn't need happen at all
+    {
+        //EXPENSIVE
+        
+        //coinCount.text = ": " + Coins.ToString(); //it can't find it? 
+        coinCount.text = ": " + newCoinCount;// 0 is temporary
+        //alright alright alright alright we can do this so the player has the UI so they should broadcast the message
+        //try stringbuilder instead
+        //i hate this now we have to rebuild all this code
+    }
+    private void UpdateLiveCount(int newLiveCount)
+    {
+        //LivesText.text = "Lives: " + playerScript.Lives.ToString(); //To String is expensive. Concatenation makes it even more expensive. Strings are immutable, so this allocated memory on the heap every frame
+        LivesText.text = "Lives: " + newLiveCount;
+    }
+
+    private void CheckIfGameOver()
+    {
+        if (playerScript.Lives <= 0)
+        {
+            playerDies.Invoke();
+            endGame();
+        }
+        if (playerScript.IsGameOver)
+        {
+            endGame();
+        }
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
+        {
+            isStartScreen = false;
+            ConnectReferences();
+            OnFirstLevel();
+        }
         safeToReloadKeys();
     }
     private void safeToReloadKeys()
@@ -124,11 +166,16 @@ public class GameManagerScript : MonoBehaviour
     public void PlayerGetsACoin()
     {
         Coins++;
+        UpdateCoinCount(Coins);
     }
 
     public void DebugInstantDeath()
     {
         playerScript.Lives = 0;
+    }
+    private void OnDestroy()
+    {
+        playerScript.OnSetLiveCount -= UpdateLiveCount;
     }
 }
     
