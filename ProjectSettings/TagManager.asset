@@ -24,6 +24,8 @@ TagManager:
   - EnableCameraFollowPlayerFlagTag
   - LivesTextTag
   - CoinsCollectedTag
+  - BackToMenuButtonTag
+  - MainUITag
   layers:
   - Default
   - TransparentFX

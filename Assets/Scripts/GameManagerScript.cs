@@ -2,9 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
-using playerCode;
 using System;
 using System.Collections;
+
+using System.Runtime.CompilerServices;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class GameManagerScript : MonoBehaviour
 
     public UnityEvent playerDies;
     public UnityEvent perfectlySafeToReloadKeys;
-    
-    
+    private GameObject doesPlayerAlreadyExist;
+    public GameObject DoesPlayerAlreadyExist { get { return doesPlayerAlreadyExist; } set { doesPlayerAlreadyExist = value; } }
     
     public int Coins { get; set; }
     
@@ -64,7 +65,11 @@ public class GameManagerScript : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded; //though, this should never be disabled really
     }
-   
+    public void ReturnToMainMenu()
+    {
+        isStartScreen = true;
+        SceneManager.LoadScene("Level Select");
+    }
     private void OnFirstLevel()
     {
         
@@ -78,13 +83,7 @@ public class GameManagerScript : MonoBehaviour
     private void ConnectReferences()
     {
         //attackHitBox.transform.position = new Vector3(0, 0, 0);
-        //Player
-        player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<PlayerScript>();
-        playerDies.AddListener(playerScript.Die);
-        perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
-        playerScript.OnSetLiveCount += UpdateLiveCount;
-        //Player
+        ConnectPlayerReferences();
         //Lives Text
         LivesText = GameObject.FindGameObjectWithTag("LivesTextTag").GetComponent<Text>();
         //Lives Text
@@ -93,6 +92,17 @@ public class GameManagerScript : MonoBehaviour
         //Coin Count
         //TurnFlag Prefab
         //TurnFlag Prefab
+    }
+    private void ConnectPlayerReferences()
+    {
+        //Player
+        player = GameObject.FindGameObjectWithTag("PlayerTag");
+        playerScript = player.GetComponent<PlayerScript>();
+        playerDies.AddListener(playerScript.Die);
+        perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
+        playerScript.OnSetLiveCount += UpdateLiveCount;
+        doesPlayerAlreadyExist = player;
+        //Player
     }
     private void UpdateCoinCount(int newCoinCount) //this shouldn't need happen at all
     {
@@ -149,7 +159,7 @@ public class GameManagerScript : MonoBehaviour
         {
             Debug.Log(e);
             //the game should end
-            endGame();
+            endGame(); //due to the commented out code I'm kind of running this for no reason
 
         }
         //its been a while since I've touched this code.
@@ -161,8 +171,9 @@ public class GameManagerScript : MonoBehaviour
     //}
     private void endGame()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
+    
     public void PlayerGetsACoin()
     {
         Coins++;

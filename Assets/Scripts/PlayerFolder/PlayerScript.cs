@@ -27,6 +27,7 @@ public class PlayerScript : MonoBehaviour
     //I wrote all this
     private GameManagerScript GAME;
     private GameObject playerInventory;
+    public GameObject thisInstance;
     private PlayerInventoryScript playerInventoryScript;
     private Rigidbody2D playerRigidBody;
     private bool isTouchingGround;
@@ -47,6 +48,7 @@ public class PlayerScript : MonoBehaviour
     private bool isGameOver = false;
     public bool IsGameOver { get { return isGameOver; } private set { isGameOver = value; } }
     private bool isInvincibile = false;
+    
     private float invincibilityFramesRemaining = 0; //defaults to 1
     private int currentLevel = 0;
     public int CurrentLevel //don't need to do it manually but I did it anyways
@@ -67,7 +69,7 @@ public class PlayerScript : MonoBehaviour
         get { return lives; }
         set { lives = value; if (value < 1) { lives = 0; } } // I could do something funny here and make lives equal abs(lives)
     } //doesn't work that bad at all!
-
+    
     private void recoil(Vector3 locationOfEnemy)
     {
         ReturnRecoil?.Invoke(locationOfEnemy); //doesn't throw a fit if its null
@@ -98,10 +100,12 @@ public class PlayerScript : MonoBehaviour
         playerInventory = GameObject.Find("PlayerInventory"); //hopefully this returns our sibling, PlayerInventory
         // it can't find the playerInventory
         playerInventoryScript = playerInventory.GetComponent<PlayerInventoryScript>();
-        playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
+        playerRigidBody = gameObject.GetComponent<Rigidbody2D>(); //there are now two players and it is mindblowing who is creating a second player?
         GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         reloadKeyConnections.AddListener(playerInventoryScript.ReloadKeyConnections); 
         gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
+
+        // not, in fact, polished we need ^ to be connected, but that gets into a rabbit hole of migrating the entire canvas over to the Level Select
         if (takeDamage == null)
         {
             takeDamage = new UnityEvent(); //if this event isn't already assigned, then begin to assign it
@@ -111,13 +115,20 @@ public class PlayerScript : MonoBehaviour
     public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; gameOver.Invoke(); }
     void Start()
     {
-        ConnectReferences();
         DontDestroyOnLoad(gameObject);
+        ConnectReferences();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
+
+
+        
+        
     }
     private void TakeDamage(int damageInt)
     {
         Lives -= damageInt;
-        OnSetLiveCount.Invoke(Lives);
+        OnSetLiveCount.Invoke(Lives); // so apparently on the second play it can't find whoever is connected to this
+        //agh we need a bootstrapping scene
     }
     private void Update()
     {
@@ -218,6 +229,24 @@ public class PlayerScript : MonoBehaviour
             isTouchingGround = false;
         }
     }
-
-
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        //this is a travesty why'd I make this and how will I stop two players from being present
+        //I think I fixed it?
+        if (scene.name == "Level Select")
+        {
+            //wait if the level is level bootstrapper where should the player go?
+            transform.position = Vector2.zero;
+        }
+        if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
+        {
+            transform.position = database.respawnLocations[0];
+            //ezra said ok for 6pm
+        }
+        
+    }
 }
