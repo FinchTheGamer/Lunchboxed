@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-
+//THIS IS THE NEW PLAYER
 public class PlayerScript : MonoBehaviour
 {
     //Is it okay for this to double as a general controller and a hurtbox?
@@ -39,6 +39,7 @@ public class PlayerScript : MonoBehaviour
     public bool IsFalling { get { return isFalling; } private set { isFalling = value; } }
     
     private bool isGameOver = false;
+    public bool IsGameOver { get { return isGameOver; } private set { isGameOver = value; } }
     private bool isInvincibile = false;
     private float invincibilityFramesRemaining = 0; //defaults to 1
     private int currentLevel = 0;
@@ -101,7 +102,7 @@ public class PlayerScript : MonoBehaviour
         }
         //takeDamage.AddListener(GAME.PlayerTakesDamage);
     }
-    public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
+    public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; gameOver.Invoke(); }
     void Start()
     {
         ConnectReferences();

@@ -19,8 +19,9 @@ public class FinalLevelFlagScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerTag"))
         {
-            winGame.Invoke();
-            spriteRenderer.enabled = false;
+            winGame.Invoke(); //woah woah is it really being connected?
+            spriteRenderer.enabled = false; 
+            
 
             // code here to completely end the game
         }

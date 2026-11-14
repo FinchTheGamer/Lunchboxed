@@ -322,7 +322,7 @@ namespace playerCode
             Debug.Log(txt);
             backpack.Add(txt);
         }
-        public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; }
+        public void thisPlayerWins() { Debug.Log("I win"); transform.position = database.respawnLocations[currentLevel]; isGameOver = true; gameOver.Invoke(); }
         public void reloadKeyConnections()
         {
             try 

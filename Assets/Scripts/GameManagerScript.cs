@@ -28,17 +28,16 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        ConnectReferences();
+        if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
+        {
+            OnFirstLevel();
+        }
         
-        attackHitBox.transform.position = new Vector3(0, 0, 0);
-        player = GameObject.FindGameObjectWithTag("PlayerTag");
-        playerScript = player.GetComponent<PlayerScript>();
-        playerDies.AddListener(playerScript.Die);
-        perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
-        playerScript.Lives = 3;
-        Coins = 0;
-        text.text = "Lives: " + playerScript.Lives.ToString();
-        coinCount.text = ": " + Coins.ToString();
-        Instantiate(TurnFlag, new Vector2(5f, -3.5f), Quaternion.identity);
+
+        
+
+        
         //GOAL: when the player presses x, teleport the attackHitBox to the player.
     }
     void Update()
@@ -57,9 +56,12 @@ public class GameManagerScript : MonoBehaviour
             playerDies.Invoke();
             endGame();
         }
-
+        if (playerScript.IsGameOver)
+        {
+            endGame();
+        }
         
-    }
+    } //wait how will I make any of this code work without... the player?
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -67,6 +69,22 @@ public class GameManagerScript : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded; //though, this should never be disabled really
+    }
+    private void OnFirstLevel()
+    {
+        playerScript.Lives = 3;
+        Coins = 0;
+
+        text.text = "Lives: " + playerScript.Lives.ToString();
+        coinCount.text = ": " + Coins.ToString();
+    }
+    private void ConnectReferences()
+    {
+        attackHitBox.transform.position = new Vector3(0, 0, 0);
+        player = GameObject.FindGameObjectWithTag("PlayerTag");
+        playerScript = player.GetComponent<PlayerScript>();
+        playerDies.AddListener(playerScript.Die);
+        perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
