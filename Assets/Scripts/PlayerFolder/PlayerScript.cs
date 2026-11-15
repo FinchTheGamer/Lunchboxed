@@ -240,7 +240,7 @@ public class PlayerScript : MonoBehaviour
         if (scene.name == "Level Select")
         {
             //wait if the level is level bootstrapper where should the player go?
-            transform.position = Vector2.zero;
+            transform.position = new Vector2(-0.15f, -3.5f);
         }
         if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {

@@ -26,6 +26,7 @@ TagManager:
   - CoinsCollectedTag
   - BackToMenuButtonTag
   - MainUITag
+  - PlayButtonColliderTag
   layers:
   - Default
   - TransparentFX
