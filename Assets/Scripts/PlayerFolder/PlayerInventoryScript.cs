@@ -25,6 +25,7 @@ public class PlayerInventoryScript : MonoBehaviour
     void OnDisable()
     {
         keyScript.keyCollected -= CollectAKeyHandler; //brooo am I even connected
+        //when disabled... when is it disabled??
     }
     private void CollectAKeyHandler(string txt)
     {
