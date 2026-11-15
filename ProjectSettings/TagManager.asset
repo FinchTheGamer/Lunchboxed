@@ -27,6 +27,7 @@ TagManager:
   - BackToMenuButtonTag
   - MainUITag
   - PlayButtonColliderTag
+  - PlayerInventoryTag
   layers:
   - Default
   - TransparentFX

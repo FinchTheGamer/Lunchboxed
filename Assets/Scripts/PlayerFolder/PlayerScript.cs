@@ -112,7 +112,13 @@ public class PlayerScript : MonoBehaviour
         }
         //takeDamage.AddListener(GAME.PlayerTakesDamage);
     }
-    public void thisPlayerWins() { Debug.Log("I win"); transform.position = new Vector2(0, 100); isGameOver = true; gameOver.Invoke(); }
+    public void thisPlayerWins() 
+    { 
+        Debug.Log("I win"); 
+       transform.position = transform.position = database.respawnLocations[currentLevel];   
+        isGameOver = true; 
+        //gameOver.Invoke(); 
+    }
     void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -162,7 +168,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.layer == 7 && !(collision.collider.gameObject.CompareTag("EnemyHurtBoxTag")) && (invincibilityFramesRemaining == 0))
         {
             //good thing I seperated them earlier
-            Debug.Log(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
+            
             TakeDamage(collision.gameObject.GetComponent<EnemyScript>().EnemyDamage);
             //how are we going to pass the damage...
             Debug.Log("The player has taken damage!");
@@ -242,6 +248,7 @@ public class PlayerScript : MonoBehaviour
         {
             //wait if the level is level bootstrapper where should the player go?
             transform.position = new Vector2(-0.15f, -3.5f);
+            currentLevel = 0;
         }
         if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {

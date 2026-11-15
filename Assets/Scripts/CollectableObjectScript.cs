@@ -10,6 +10,7 @@ public class CollectableObjectScript : MonoBehaviour
     [SerializeField] private Key keyScript;
     protected GameManagerScript gameManagerScript;
     public UnityEvent itemCollected;
+    private PlayerInventoryScript playerInventoryScript;
 
     float sine;
    
@@ -29,9 +30,13 @@ public class CollectableObjectScript : MonoBehaviour
     {
        
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
-        itemCollected.AddListener(gameManagerScript.PlayerGetsACoin);
-        
-
+        playerInventoryScript = GameObject.FindGameObjectWithTag("PlayerInventoryTag").GetComponent<PlayerInventoryScript>();
+        //itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); don't need this anymore
+        itemCollected.AddListener(playerInventoryScript.CollectCoin); //this is all going to have to be rewritten to add different coin denominations...
+        //Wait it won't! Because GAME can just get the player coin count alone!
+        //okay so this will ping the player to collect a coin, and that will tell the game manager to update the script
+        //wouldn't it be kind of expensive to do it this way?
+        //ugh but the other way around doesn't sound better! Having the player subscribe to every single coin sounds a lot worse
 
         collectibleObjectSpriteList =  Resources.LoadAll<Sprite>("Collectibles"); //this loads in all of them! Be careful! This is nowhere near best practice //its not finding anything!
         
@@ -71,6 +76,10 @@ public class CollectableObjectScript : MonoBehaviour
     {
         itemCollected.Invoke();
         gameObject.SetActive(false);
+        //so we invoke item collected
+        //Its like changing a linked list in a way
+        //this invoke needs to point to a different method and the subscriber method needs to listen to a different invoke
+        //that's kinda cool
         //and afterwards, run away
     }
     protected void setSpriteViaIndex(int spriteIndex)

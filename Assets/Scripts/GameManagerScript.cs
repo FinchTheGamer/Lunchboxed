@@ -12,6 +12,7 @@ public class GameManagerScript : MonoBehaviour
     private const string MEMORIAL = "I love you Lolo. I miss you. I'm sorry that we didn't talk more. You loved me so much. But I could never say it back.";
     private GameObject attackHitBox;
     private PlayerScript playerScript;
+    private PlayerInventoryScript playerInventoryScript;
     private BoxCollider2D attackHitBoxCollider2D;
     private GameObject player;
     private Text LivesText;
@@ -29,6 +30,11 @@ public class GameManagerScript : MonoBehaviour
     
     void Start()
     {
+        //DEBUG 
+        Coins = 0;
+        //DEBUG
+
+
         DontDestroyOnLoad(gameObject);
         if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
         {
@@ -75,10 +81,10 @@ public class GameManagerScript : MonoBehaviour
         
         //remember to connect references
         playerScript.Lives = 3;
-        Coins = 0;
+        
 
         LivesText.text = "Lives: " + playerScript.Lives.ToString();
-        coinCount.text = ": " + Coins.ToString();
+        coinCount.text = ": " + playerInventoryScript.PlayerCoins.ToString(); //now we have to get this with delegates... on second thought... I might have caused myself more trouble
     }
     private void ConnectReferences()
     {
@@ -98,9 +104,16 @@ public class GameManagerScript : MonoBehaviour
         //Player
         player = GameObject.FindGameObjectWithTag("PlayerTag");
         playerScript = player.GetComponent<PlayerScript>();
+
+
+        playerInventoryScript = player.GetComponentInChildren<PlayerInventoryScript>();
+        playerInventoryScript.OnCollectACoin += PlayerGetsACoin;
+
+
         playerDies.AddListener(playerScript.Die);
         perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
         playerScript.OnSetLiveCount += UpdateLiveCount;
+        
         doesPlayerAlreadyExist = player;
         //Player
     }
@@ -155,7 +168,7 @@ public class GameManagerScript : MonoBehaviour
             SceneManager.LoadScene("Level " + (playerScript.CurrentLevel + 1), LoadSceneMode.Single); // I need to write a function to fix this... but how can I fix that
             //wait til the scene is loaded? That'll need a wrapper...
         }
-        catch(IndexOutOfRangeException e)
+        catch(Exception e)
         {
             Debug.Log(e);
             //the game should end
@@ -169,15 +182,32 @@ public class GameManagerScript : MonoBehaviour
     //{
     //    playerScript.Lives--;
     //}
+    public void WinGame()
+    {
+        Debug.Log("You win!");
+        endLevelandLoadNextOne();
+    }
     private void endGame()
     {
         //Time.timeScale = 0f;
+        //and then after ending the game... whta??
+        //what boots the GameOverScren anyways?
+
     }
     // is someone else setting Time.timeScale to 0?
+    public void restartGame()
+    {
+        playerScript.Lives = 3;
+    }
     public void PlayerGetsACoin()
     {
-        Coins++;
-        UpdateCoinCount(Coins);
+        
+        //we could call the player right here, or we could have a chain of delegates and events. This is clearly the superior solution
+        /* For future reference:
+         Coin ------> calls Player to update the coin count number ------> calls GAME to update the coin count
+         This'll be better for the eventual multiplayer update that is definitely coming and I won't quit the project before hand definitely*/
+        UpdateCoinCount(playerInventoryScript.PlayerCoins);
+        Debug.Log(playerInventoryScript.PlayerCoins);
     }
 
     public void DebugInstantDeath()
@@ -187,6 +217,7 @@ public class GameManagerScript : MonoBehaviour
     private void OnDestroy()
     {
         playerScript.OnSetLiveCount -= UpdateLiveCount;
+        playerInventoryScript.OnCollectACoin -= PlayerGetsACoin;
     }
 }
     

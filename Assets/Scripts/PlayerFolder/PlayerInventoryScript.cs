@@ -11,7 +11,14 @@ public class PlayerInventoryScript : MonoBehaviour
     private List<string> backpack = new List<string> { };
 
     public List<string> Backpack { get { return backpack; } }
-    
+    public delegate void CollectACoinAction();
+    public event CollectACoinAction OnCollectACoin;
+
+    //crazy concept, but I think the PlayerInventory should control the CoinCount...
+    //I'm not sure how many problems that'll cause, but that's okay, because I don't care!
+    private int playerCoins = 0;
+    public int PlayerCoins { get { return playerCoins; } private set { playerCoins = value; } }
+    //so if anyone does want to change it, they need to send an event
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,6 +33,12 @@ public class PlayerInventoryScript : MonoBehaviour
     {
         keyScript.keyCollected -= CollectAKeyHandler; //brooo am I even connected
         //when disabled... when is it disabled??
+    }
+    public void CollectCoin()
+    {
+        PlayerCoins = PlayerCoins + 1; //I love private set //I could use PlayerCoins++ but I don't want to
+        Debug.Log("Player Inventory says that PlayerCoins is " + PlayerCoins.ToString());
+        OnCollectACoin.Invoke();
     }
     private void CollectAKeyHandler(string txt)
     {

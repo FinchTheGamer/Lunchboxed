@@ -22,6 +22,7 @@ public class CanvasScript : MonoBehaviour
 
         BackToMenuButtonText = BackToMenuGameObject.GetComponentInChildren<Text>();
         BackToMenuButton.onClick.AddListener(GAME.ReturnToMainMenu);
+        BackToMenuButton.onClick.AddListener(GAME.restartGame);
 
         BackToMenuButtonImage = BackToMenuGameObject.GetComponentInChildren<Image>();
 
