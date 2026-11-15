@@ -12,7 +12,7 @@ public class PlayButtonScript : MonoBehaviour
     {
         PlayButtonTransform = gameObject.transform;
 
-        PlayButtonCollider = GameObject.FindGameObjectWithTag("PlayButtonCollider");
+        PlayButtonCollider = GameObject.FindGameObjectWithTag("PlayButtonColliderTag");
         PlayButtonColliderBoxCollider2D = PlayButtonCollider.GetComponent<BoxCollider2D>();
 
         PlayButtonRectTransform = gameObject.GetComponent<RectTransform>();
