@@ -16,9 +16,9 @@ public class PlayButtonScript : MonoBehaviour
         PlayButtonColliderBoxCollider2D = PlayButtonCollider.GetComponent<BoxCollider2D>();
 
         PlayButtonRectTransform = gameObject.GetComponent<RectTransform>();
-        PlayButtonColliderBoxCollider2D.offset = Vector2.zero;
-        PlayButtonColliderBoxCollider2D.size = PlayButtonRectTransform.sizeDelta;
-        PlayButtonCollider.GetComponent<RectTransform>().position = PlayButtonRectTransform.position; 
+        //PlayButtonColliderBoxCollider2D.offset = Vector2.zero;
+        //PlayButtonColliderBoxCollider2D.size = PlayButtonRectTransform.sizeDelta;
+        //PlayButtonCollider.GetComponent<RectTransform>().position = PlayButtonRectTransform.position; 
         //could I set it directly? yeah...
             
         //woah
