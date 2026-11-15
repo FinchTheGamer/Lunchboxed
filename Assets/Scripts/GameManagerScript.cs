@@ -173,7 +173,7 @@ public class GameManagerScript : MonoBehaviour
     {
         //Time.timeScale = 0f;
     }
-    
+    // is someone else setting Time.timeScale to 0?
     public void PlayerGetsACoin()
     {
         Coins++;
