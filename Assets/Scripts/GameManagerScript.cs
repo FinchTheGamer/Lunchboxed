@@ -36,7 +36,9 @@ public class GameManagerScript : MonoBehaviour
 
 
         DontDestroyOnLoad(gameObject);
-        if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
+        Debug.Log("Will we run the first level?");
+        
+        if (!((SceneManager.GetActiveScene().name == "Level Select") || (SceneManager.GetActiveScene().name == "Level Bootstrapper"))) //bro I hard coded
         {
             isStartScreen = false;
             ConnectReferences();
@@ -147,7 +149,7 @@ public class GameManagerScript : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().name == "Level 1") //bro I hard coded
+        if (!((SceneManager.GetActiveScene().name == "Level Select") || (SceneManager.GetActiveScene().name == "Level Bootstrapper"))) //bro I hard coded
         {
             isStartScreen = false;
             ConnectReferences();

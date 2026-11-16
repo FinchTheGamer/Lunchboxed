@@ -28,8 +28,11 @@ public class PlayerScript : MonoBehaviour
     private GameManagerScript GAME;
     private GameObject playerInventory;
     public GameObject thisInstance;
+    private GameObject sceneLauncher;
+    private SceneLauncherScript sceneLauncherScript;
     private PlayerInventoryScript playerInventoryScript;
     private Rigidbody2D playerRigidBody;
+    
     private bool isTouchingGround;
     public bool IsTouchingGround
     {
@@ -105,6 +108,13 @@ public class PlayerScript : MonoBehaviour
         reloadKeyConnections.AddListener(playerInventoryScript.ReloadKeyConnections); 
         gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
 
+        sceneLauncher = GameObject.FindGameObjectWithTag("SceneLauncherTag");
+        
+        sceneLauncherScript = sceneLauncher.GetComponent<SceneLauncherScript>();
+        
+        //we are going to have to re do the event every single time broooo or we could just make SceneLauncher not destroy on load
+        sceneLauncherScript.OnSetCurrentLevel += UpdateCurrentLevel; //it couldn't find what?
+
         // not, in fact, polished we need ^ to be connected, but that gets into a rabbit hole of migrating the entire canvas over to the Level Select
         if (takeDamage == null)
         {
@@ -124,16 +134,16 @@ public class PlayerScript : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         ConnectReferences();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        
-
-
-        
-        
+    }
+    private void UpdateCurrentLevel(int newCurrentLevel)
+    {
+        currentLevel = newCurrentLevel - 1; //I forgot that its slightly off by one
     }
     private void TakeDamage(int damageInt)
     {
         Lives -= damageInt;
         OnSetLiveCount.Invoke(Lives); // so apparently on the second play it can't find whoever is connected to this
+        //On set live count? who who who 
         //agh we need a bootstrapping scene
     }
     private void Update()
@@ -250,10 +260,16 @@ public class PlayerScript : MonoBehaviour
             transform.position = new Vector2(-0.15f, -3.5f);
             currentLevel = 0;
         }
-        if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
+        else if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {
             transform.position = database.respawnLocations[0];
             //ezra said ok for 6pm
+        }
+        else
+        {
+            Debug.Log("Current Level is " + currentLevel);
+            transform.position = database.respawnLocations[currentLevel]; //0 IS A TEMP NUMBER // We need to find a way for the player to always be oriented regardless of what the level manager does
+            //the above is failing lol
         }
         
     }

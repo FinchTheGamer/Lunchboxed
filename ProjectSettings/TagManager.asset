@@ -28,6 +28,8 @@ TagManager:
   - MainUITag
   - PlayButtonColliderTag
   - PlayerInventoryTag
+  - SceneLauncherTag
+  - LevelSelectCanvasTag
   layers:
   - Default
   - TransparentFX
