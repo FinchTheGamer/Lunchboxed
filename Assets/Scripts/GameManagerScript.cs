@@ -21,7 +21,6 @@ public class GameManagerScript : MonoBehaviour
     private bool isStartScreen = true;
     //public GameObject TurnFlag; //why should I be spawning turnflags?
 
-    public UnityEvent playerDies;
     public UnityEvent perfectlySafeToReloadKeys;
     private GameObject doesPlayerAlreadyExist;
     public GameObject DoesPlayerAlreadyExist { get { return doesPlayerAlreadyExist; } set { doesPlayerAlreadyExist = value; } }
@@ -53,18 +52,7 @@ public class GameManagerScript : MonoBehaviour
         //GOAL: when the player presses x, teleport the attackHitBox to the player.
     }
     
-    void Update()
-    {
-
-        //if (Input.GetKeyDown(KeyCode.X))
-        //{
-        //attackHitBox.transform.position = player.transform.position + new Vector3(1, 0, 0);
-        //}
-        if (!isStartScreen)
-        {
-            CheckIfGameOver();
-        }
-    } //wait how will I make any of this code work without... the player?
+    //wait how will I make any of this code work without... the player?
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -82,7 +70,7 @@ public class GameManagerScript : MonoBehaviour
     {
         
         //remember to connect references
-        playerScript.Lives = 3;
+        //playerScript.Lives = 3;
         
 
         LivesText.text = "Lives: " + playerScript.Lives.ToString();
@@ -112,7 +100,7 @@ public class GameManagerScript : MonoBehaviour
         playerInventoryScript.OnCollectACoin += PlayerGetsACoin;
 
 
-        playerDies.AddListener(playerScript.Die);
+        
         perfectlySafeToReloadKeys.AddListener(player.GetComponentInChildren<PlayerInventoryScript>().ReloadKeyConnections);
         playerScript.OnSetLiveCount += UpdateLiveCount;
         
@@ -135,18 +123,7 @@ public class GameManagerScript : MonoBehaviour
         LivesText.text = "Lives: " + newLiveCount;
     }
 
-    private void CheckIfGameOver()
-    {
-        if (playerScript.Lives <= 0)
-        {
-            playerDies.Invoke();
-            endGame();
-        }
-        if (playerScript.IsGameOver)
-        {
-            endGame();
-        }
-    }
+    
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!((SceneManager.GetActiveScene().name == "Level Select") || (SceneManager.GetActiveScene().name == "Level Bootstrapper"))) //bro I hard coded
@@ -156,6 +133,7 @@ public class GameManagerScript : MonoBehaviour
             OnFirstLevel();
         }
         safeToReloadKeys();
+        //someone is reloadeding the player to the first scene... ah  I see its that OnFirstLevel thing
     }
     private void safeToReloadKeys()
     {
@@ -187,17 +165,18 @@ public class GameManagerScript : MonoBehaviour
     public void WinGame()
     {
         Debug.Log("You win!");
-        endLevelandLoadNextOne();
+        //endLevelandLoadNextOne();
     }
     private void endGame()
     {
         //Time.timeScale = 0f;
         //and then after ending the game... whta??
         //what boots the GameOverScren anyways?
+        //what is this even for??
 
     }
-    // is someone else setting Time.timeScale to 0?
-    public void restartGame()
+    
+    public void restartGame() //restartGame is the one who is resetting the player's lives to 3
     {
         playerScript.Lives = 3;
     }

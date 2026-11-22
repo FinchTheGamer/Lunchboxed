@@ -31,6 +31,7 @@ public class SceneLauncherScript : MonoBehaviour
     {
         Debug.Log("Launch Level ran");
         OnSetCurrentLevel.Invoke(levelToLaunch);//null reference exception?? ohhh
+        //who is connected to OnSetCurrentLevel
         Debug.Log("Player Current Level updated from the Scene Launcher");
         SceneManager.LoadScene("Level"+ " " + levelToLaunch.ToString());
     }

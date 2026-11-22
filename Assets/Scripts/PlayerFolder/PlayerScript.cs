@@ -1,4 +1,5 @@
 using System;
+using playerCode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -83,6 +84,13 @@ public class PlayerScript : MonoBehaviour
         isGameOver = true;
         gameOver.Invoke(); //calls game over
     }
+    public void thisPlayerWins()
+    {
+        Debug.Log("I win");
+        transform.position = transform.position = database.respawnLocations[currentLevel];
+        isGameOver = true;
+        //gameOver.Invoke(); 
+    }
     public void newLevel()
     {
         currentLevel++; //this needs to be the only time that the level is updated.
@@ -107,7 +115,7 @@ public class PlayerScript : MonoBehaviour
         GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         reloadKeyConnections.AddListener(playerInventoryScript.ReloadKeyConnections); 
         gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
-
+        //who calls gameOver?
         sceneLauncher = GameObject.FindGameObjectWithTag("SceneLauncherTag");
         
         sceneLauncherScript = sceneLauncher.GetComponent<SceneLauncherScript>();
@@ -122,22 +130,18 @@ public class PlayerScript : MonoBehaviour
         }
         //takeDamage.AddListener(GAME.PlayerTakesDamage);
     }
-    public void thisPlayerWins() 
-    { 
-        Debug.Log("I win"); 
-       transform.position = transform.position = database.respawnLocations[currentLevel];   
-        isGameOver = true; 
-        //gameOver.Invoke(); 
-    }
+    
     void Start()
     {
+        Lives = 3;
         DontDestroyOnLoad(gameObject);
         ConnectReferences();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     private void UpdateCurrentLevel(int newCurrentLevel)
     {
-        currentLevel = newCurrentLevel - 1; //I forgot that its slightly off by one
+        currentLevel = (newCurrentLevel - 1); //I forgot that its slightly off by one
+        //wait why do I want to find this again?
     }
     private void TakeDamage(int damageInt)
     {
@@ -162,6 +166,11 @@ public class PlayerScript : MonoBehaviour
             {
                 invincibilityFramesRemaining -= Time.deltaTime; //then tick the timer down
             }
+        }
+        if(Lives <= 0)
+        {
+            //die lol
+            Die();
         }
         
         
@@ -262,14 +271,16 @@ public class PlayerScript : MonoBehaviour
         }
         else if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {
-            transform.position = database.respawnLocations[0];
-            //ezra said ok for 6pm
+            transform.position = database.respawnLocations[0]; //this could be added to the database
+            //if we start on the first level?? this one could be unnecessary in the first place
         }
         else
         {
-            Debug.Log("Current Level is " + currentLevel);
+            //Debug.Log("Current Level is " + currentLevel);
             transform.position = database.respawnLocations[currentLevel]; //0 IS A TEMP NUMBER // We need to find a way for the player to always be oriented regardless of what the level manager does
             //the above is failing lol
+            //now what's its problem?
+            //I found out that we were making a rookie mistake. We were calling too far ahead in the future
         }
         
     }

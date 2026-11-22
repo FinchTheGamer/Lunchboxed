@@ -14,10 +14,12 @@ public class CanvasScript : MonoBehaviour
     {
 
         DontDestroyOnLoad(gameObject);
+        //putting too many things on dontdestroyonload might be a problem in the future for memory
 
+        //BackToMenuButton
         BackToMenuGameObject = GameObject.FindGameObjectWithTag("BackToMenuButtonTag");
         BackToMenuButton = BackToMenuGameObject.GetComponent<Button>();
-
+        //BackToMenuButton
         GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>(); //this needs to be run in the first level, so be careful
 
         BackToMenuButtonText = BackToMenuGameObject.GetComponentInChildren<Text>();
@@ -33,13 +35,13 @@ public class CanvasScript : MonoBehaviour
         //I guess someone will have to turn it on?
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    public void ActivateBackToMenuButton()
+    public void ActivateBackToMenuButton() //we'll need plenty more in the future
     {
         BackToMenuButton.enabled = true;
         BackToMenuButtonImage.enabled = true;
         BackToMenuButtonText.enabled = true;
     }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) //we call a lot of these
     {
         ConnectBackToMenuButtonReferences();
         if(scene.name == "Level Select") //I think that's kinda dangerous

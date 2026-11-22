@@ -16,4 +16,9 @@ public class Cheese : CollectableObjectScript
         //CollectThisCheese.AddListener(playerScript.CollectPowerUp); //what?
         //how can I return this?
     }
+    protected override void collectThisItem()
+    {
+        // I think this just calls the normal collectThisItem
+        base.collectThisItem(); //what does base mean? I wish I understood anything;
+    }
 }

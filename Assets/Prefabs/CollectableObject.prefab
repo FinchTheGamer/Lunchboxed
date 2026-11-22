@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8884977697489692009}
   - component: {fileID: 7852930780468712381}
   - component: {fileID: 6721680084324588435}
-  - component: {fileID: 8619516510365904317}
+  - component: {fileID: 5505193634045004407}
   m_Layer: 0
   m_Name: CollectableObject
   m_TagString: Untagged
@@ -168,7 +168,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &8619516510365904317
+--- !u!114 &5505193634045004407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,14 +177,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2476882337661875155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c474231d0537ad468a0bc4d897aecf3, type: 3}
+  m_Script: {fileID: 11500000, guid: b53b5642864bb2e4183413992746e525, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Cheese
   type: 
   typeIndex: 0
   overrideType: 0
-  spriteRenderer: {fileID: 6721680084324588435}
-  collectibleObjectSpriteList: []
+  spriteRenderer: {fileID: 0}
+  keyScript: {fileID: 0}
   itemCollected:
+    m_PersistentCalls:
+      m_Calls: []
+  CollectThisCheese:
     m_PersistentCalls:
       m_Calls: []

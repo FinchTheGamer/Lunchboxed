@@ -12,6 +12,7 @@ public class MovableTileScript : MonoBehaviour
     [SerializeField] private int changeInY = 10;
     [SerializeField] private int changeInZ = 0;
     private bool isOpen = false;
+    private bool isBeingOpened = false;
     private bool doesPlayerHaveKey;
     [SerializeField] private string requiredKeyForThisTile;
 
@@ -29,24 +30,22 @@ public class MovableTileScript : MonoBehaviour
         
         //I don't think I need the above...
         
-        if ((collision.gameObject.CompareTag("PlayerTag") && !isOpen && doesPlayerHaveKey)) //if the player touches this and has the key
+        if ((collision.gameObject.CompareTag("PlayerTag") && !isOpen && doesPlayerHaveKey && !isBeingOpened)) //if the player touches this and has the key
         {
             StartCoroutine(ExperimentalOpen());
-           
-            
         }
 
     }
 
     void Open()
     {
-        
         isOpen = true;
     }
     public IEnumerator ExperimentalOpen() //INEFFICIENT?
     {
         Vector3 STARTINGPOSITION = transform.position; //so this is the beginning
         Vector3 ENDINGPOSITION = new Vector3(transform.position.x + changeInX, transform.position.y + changeInY, transform.position.z + changeInZ);
+        isBeingOpened = true;
         while (STARTINGPOSITION != ENDINGPOSITION) //what if it misses ohso slightly?s
         {
             if (Vector3.Distance(transform.position, ENDINGPOSITION) > SNAPDISTANCE) 

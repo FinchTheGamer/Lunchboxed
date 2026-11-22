@@ -48,13 +48,13 @@ public class Key : CollectableObjectScript
 
     protected override void collectThisItem()
     {
-        Debug.Log("This ran");
+        
         keyCollected?.Invoke(thisKey); //SO FOR SOMEREASON THIS IS FAILING
         //i need to figure out if this is never transmitting or if the receiver is never receiving
         //its... its failing again...
 
         // below is unrelated
-
+        //not much below in the first place
 
 
         gameObject.SetActive(false); //HERE I SEE I UNDERSTAND

@@ -32,7 +32,7 @@ public class cameraScript : MonoBehaviour
         }
         
 
-            
+           
         
     }
     void Awake() // Awake is called before any other Start() has been called. A constructor for GameObjects
