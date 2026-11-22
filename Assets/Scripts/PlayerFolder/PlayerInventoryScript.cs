@@ -23,10 +23,16 @@ public class PlayerInventoryScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         if ((SceneManager.GetActiveScene().name != "Level Select") && (SceneManager.GetActiveScene().name != "Level Bootstrapper"))
         {
+            
             keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
             keyScript.keyCollected += CollectAKeyHandler;
+        }
+        else
+        {
+            backpack.Clear();
         }
         
     }

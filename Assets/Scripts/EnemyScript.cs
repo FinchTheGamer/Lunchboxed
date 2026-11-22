@@ -107,7 +107,9 @@ public class EnemyScript : MonoBehaviour
     {
         Debug.Log($"Damage to be dealt: {damageToBeDealt}");
         Debug.Log($"Health before impact: {enemyHealth}"); //what kind of enemy health is it accessing??
+        StartCoroutine(FlashRed());
         enemyHealth -= damageToBeDealt;
+
         Debug.Log($"Health after impact: {enemyHealth}");
 
         //lol why make this protected
@@ -166,8 +168,10 @@ public class EnemyScript : MonoBehaviour
             enemyRigidBody.linearVelocity = new Vector2(enemyMoveSpeed * -1, enemyRigidBody.linearVelocityY);
         }
     }
-    private IEnumerator f()
+    protected IEnumerator FlashRed()
     {
-        yield return null;
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
     }
 }

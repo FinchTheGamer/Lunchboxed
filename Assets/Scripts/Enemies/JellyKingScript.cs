@@ -90,7 +90,7 @@ public class JellyKingScript : EnemyScript
     }
     protected override void damageThisEnemy(int damageToBeDealt)
     {
-       
+        StartCoroutine(FlashRed());
         EnemyHealth -= damageToBeDealt; //why does this work? I think the method is grabbing the EnemyScript's health instead of the JellyKing's health
         
     }
@@ -103,6 +103,8 @@ public class JellyKingScript : EnemyScript
     }
     protected override void ThisEnemyDies()
     {
+        BestowPlayerKey();
+        Debug.Log("Bleh");
         Destroy(gameObject);
     }
     //can't wait to build the FireBall! How will it work?
@@ -121,6 +123,7 @@ public class JellyKingScript : EnemyScript
         //player.GetComponentInChildren<PlayerInventoryScript>(); //we need to send a signal for the player to get a key
         if (DoesThisBossBestowAKey)
         {
+            Debug.Log($"Key being bestowed: {KeyThisBossBestows}");
             OnGivePlayerKey?.Invoke(KeyThisBossBestows); 
         }
 
