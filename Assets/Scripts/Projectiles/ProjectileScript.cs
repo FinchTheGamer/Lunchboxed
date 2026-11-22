@@ -67,7 +67,11 @@ public class ProjectileScript : MonoBehaviour
         
             //Debug.Log("I hit something!");
             StopCoroutine(Move());
-            gameObject.SetActive(false);
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        //I hope not disabling the script won't do anything horrendous
+
     }
     
     

@@ -11,6 +11,9 @@ public class GameOverScript : MonoBehaviour
     PlayerScript playerScript;
     private Sprite[] SplashScreenSpriteList;
     public UnityEvent activateBackToMenuButton;
+    public UnityEvent gameEnds;
+    public UnityEvent backToMenuScreen;
+    [SerializeField] private CanvasScript canvasScript;
     private const int GAMEOVERINDEX = 0; //0 is Game Over, 1 is You Win
     private const int YOUWININDEX = 1; //hmmm the player is falling while triggering YOUWIN
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,15 +25,16 @@ public class GameOverScript : MonoBehaviour
         spriteRenderer.sprite = SplashScreenSpriteList[GAMEOVERINDEX]; 
 
         playerScript = GameObject.FindGameObjectWithTag("PlayerTag").GetComponent<PlayerScript>();
-
+        gameEnds.AddListener(canvasScript.OnGameOver);
         activateBackToMenuButton.AddListener(GameObject.FindGameObjectWithTag("MainUITag").GetComponent<CanvasScript>().ActivateBackToMenuButton);
-
+        
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
         //The GameOverScreen (or more accurately the YouWin screen) isn't being dragged along as a physical object..
     }
     public void runGameOver()
     {
+        gameEnds.Invoke();
         transform.position = playerScript.transform.position; //that block just sets this object's position to the player's position
         transform.position = new Vector3(transform.position.x, transform.position.y, -9);
         spriteRenderer.sprite = SplashScreenSpriteList[GAMEOVERINDEX]; //is the problem in RunGameVictory/runGameOver's publisher?

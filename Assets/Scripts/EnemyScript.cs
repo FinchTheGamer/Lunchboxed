@@ -22,7 +22,7 @@ public class EnemyScript : MonoBehaviour
     public int EnemyHealth { get { return enemyHealth; } protected set { enemyHealth = value; } } //why protected vs making a new private version??
     private int enemyDamage = 1;
     public int EnemyDamage { get { return enemyDamage; } private set { enemyDamage = value; } }
-    
+    private int enemyScore = 100;
     float sineValue;
     float scale;
     public Rigidbody2D playerRigidBody;
@@ -119,7 +119,7 @@ public class EnemyScript : MonoBehaviour
         direction = direction * -1; //if direction = 1, then it'll flip to -1. If direction = -1, then it'll flip to 1. Genius!\
         localScale = transform.localScale; //so that we can modify it, because localscale.x is normally read only
         localScale.x *= -1;
-        transform.localScale = localScale; 
+        transform.localScale = localScale; //what
         //above is probably the smartest math you'll see in this project, except for a sine wave or cosine here and there
     }
     private void ConnectReferences()

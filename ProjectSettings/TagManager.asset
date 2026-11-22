@@ -30,6 +30,8 @@ TagManager:
   - PlayerInventoryTag
   - SceneLauncherTag
   - LevelSelectCanvasTag
+  - ForceDestroyOldProjectilesFlag
+  - ProjectileTag
   layers:
   - Default
   - TransparentFX

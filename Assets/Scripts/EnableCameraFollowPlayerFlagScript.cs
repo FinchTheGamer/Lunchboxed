@@ -10,7 +10,7 @@ public class EnableCameraFollowPlayerFlagScript : MonoBehaviour
     {
         if (collider2D.gameObject.CompareTag("PlayerTag"))
         {
-            OnEnableCameraFollowPlayer.Invoke();
+            OnEnableCameraFollowPlayer.Invoke(); //should I make both of these a single object???
         }
     }
 }

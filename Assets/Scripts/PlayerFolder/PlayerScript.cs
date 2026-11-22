@@ -66,7 +66,8 @@ public class PlayerScript : MonoBehaviour
             currentLevel = value;
         }
     }
-
+    public int EnemiesStomped { get; private set; }
+    public int PowerupScore { get; private set; } = 0;
     private int lives = 3;
     public int Lives // turns out moving this to the player didn't take much work at all!
     {
@@ -115,6 +116,9 @@ public class PlayerScript : MonoBehaviour
         GAME = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         reloadKeyConnections.AddListener(playerInventoryScript.ReloadKeyConnections); 
         gameOver.AddListener(GameObject.FindGameObjectWithTag("GameOverSplashScreenTag").GetComponent<GameOverScript>().runGameOver); //polished up
+        //WARNING! gameOver is also indirectly connected to something in CanvasScript
+
+
         //who calls gameOver?
         sceneLauncher = GameObject.FindGameObjectWithTag("SceneLauncherTag");
         
@@ -208,11 +212,15 @@ public class PlayerScript : MonoBehaviour
         }
         if (collision.gameObject.layer == 7 && collision.collider.gameObject.CompareTag("EnemyHurtBoxTag"))
         {
+            //we hit an enemy! victory!
+            EnemiesStomped++;
             playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocityX, 5);
         }
+        
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
+        Debug.Log($"I am in contact with {collision.gameObject}");
         isTouchingGround = ((collision.gameObject.layer == 6)); //hmm... how often should this run? I don't want to force isTouchingGround to constantly flip!
         //THEN AGAIN
         if (isTouchingGround)
@@ -237,6 +245,10 @@ public class PlayerScript : MonoBehaviour
             recoil(location_of_enemy);
             isInvincibile = true;
             invincibilityFramesRemaining = 1;
+        }
+        if (collision.gameObject.layer == 7 && collision.collider.gameObject.CompareTag("EnemyHurtBoxTag"))
+        {
+            EnemiesStomped++;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)

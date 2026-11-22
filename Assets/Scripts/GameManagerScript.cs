@@ -18,6 +18,7 @@ public class GameManagerScript : MonoBehaviour
     private Text LivesText;
     private Text coinCount;
     private int lives = 3;
+    private int bonusScore = 0;
     private bool isStartScreen = true;
     //public GameObject TurnFlag; //why should I be spawning turnflags?
 
@@ -200,5 +201,23 @@ public class GameManagerScript : MonoBehaviour
         playerScript.OnSetLiveCount -= UpdateLiveCount;
         playerInventoryScript.OnCollectACoin -= PlayerGetsACoin;
     }
+    public int GetPlayerCoinCount()
+    {
+        return playerInventoryScript.PlayerCoins; //wow so so so so bad for practices but idc                                      
+    }
+    public int GetPlayerEnemiesStomped()
+    {
+        return playerScript.EnemiesStomped;
+    }
+    public int GetPlayerPowerupsCollected()
+    {
+        //I'm so so sorry
+        return playerScript.PowerupScore; //because the power up score is going to be in hundreds, so remember to manipulate it in the CanvasScript
+    }
+    public int GetPlayerBonusScore()
+    {
+        return bonusScore;
+    }
+    
 }
     

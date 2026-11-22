@@ -8,6 +8,16 @@ public class CanvasScript : MonoBehaviour
     Button BackToMenuButton;
     Image BackToMenuButtonImage;
     Text BackToMenuButtonText;
+
+    [SerializeField] GameObject EndGamePanel;
+    [SerializeField] Text FinalScoreText;
+    private int totalCoinCount;
+    private int enemiesStomped;
+    private int powerupScore;
+    private int finalScore;
+
+    
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,7 +25,7 @@ public class CanvasScript : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         //putting too many things on dontdestroyonload might be a problem in the future for memory
-
+        EndGamePanel.SetActive(false);
         //BackToMenuButton
         BackToMenuGameObject = GameObject.FindGameObjectWithTag("BackToMenuButtonTag");
         BackToMenuButton = BackToMenuGameObject.GetComponent<Button>();
@@ -62,8 +72,23 @@ public class CanvasScript : MonoBehaviour
         BackToMenuButton = BackToMenuGameObject.GetComponent<Button>();
         BackToMenuButtonText = BackToMenuGameObject.GetComponentInChildren<Text>();
         BackToMenuButton.onClick.AddListener(GAME.ReturnToMainMenu);
-
+        BackToMenuButton.onClick.AddListener(OnResetGame);
         BackToMenuButtonImage = BackToMenuGameObject.GetComponentInChildren<Image>();
+    }
+    public void OnGameOver()
+    {
+        //we need to connect to the game manager, then they send us an update to everything?
+        //wait this is a canvas it should be fine for this to be coupled with the GameManager a little tighter
+        totalCoinCount = GAME.GetPlayerCoinCount();
+        enemiesStomped = GAME.GetPlayerEnemiesStomped();
+        powerupScore = GAME.GetPlayerPowerupsCollected();
+        finalScore = (totalCoinCount * 100) + (enemiesStomped * 100) + (powerupScore * 100) + GAME.GetPlayerBonusScore(); //I know I could just do 100(coins*enemiesStomped*powerups) but I might mod the formula later
+        FinalScoreText.text = $"\tFinal Score: {finalScore}\r\n\t-Coins: {totalCoinCount} -Enemies stomped: {enemiesStomped}\r\n\t-Powerups: {powerupScore} -Bonus: {GAME.GetPlayerBonusScore()}"; //THAT BETTER WORK
+        EndGamePanel.SetActive(true);
+    }
+    public void OnResetGame()
+    {
+        EndGamePanel.SetActive(false);
     }
 
 }
