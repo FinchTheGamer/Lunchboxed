@@ -30,10 +30,7 @@ public class PlayerInventoryScript : MonoBehaviour
             keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
             keyScript.keyCollected += CollectAKeyHandler;
         }
-        else
-        {
-            backpack.Clear();
-        }
+        
         
     }
     void OnDisable()

@@ -268,6 +268,7 @@ public class PlayerScript : MonoBehaviour
             //wait if the level is level bootstrapper where should the player go?
             transform.position = new Vector2(-0.15f, -3.5f);
             currentLevel = 0;
+            playerInventoryScript.Backpack.Clear(); //CAN WE EVEN CLEAR THIS?
         }
         else if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {
