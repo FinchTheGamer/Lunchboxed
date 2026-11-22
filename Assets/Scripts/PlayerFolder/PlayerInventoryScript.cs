@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInventoryScript : MonoBehaviour
 {
     Key keyScript;
-    EnemyScript thisLevelsBoss;
+    public EnemyScript thisLevelsBoss;
     [SerializeField] private DatabaseScriptableObject database;
 
     private List<string> backpack = new List<string> { };
@@ -109,8 +109,9 @@ public class PlayerInventoryScript : MonoBehaviour
         try
         {
             thisLevelsBoss.OnGivePlayerKey += CollectAKeyHandler;
+            Debug.Log("sooowr soowr");
         }
-        catch { Debug.Log("There isn't a boss in this level!"); }
+        catch { Debug.Log("There isn't a boss in this level!"); } //it appears there isn't a boss in this level
     }
     public void ReloadKeyConnections()
     {

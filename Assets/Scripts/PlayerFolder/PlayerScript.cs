@@ -269,6 +269,7 @@ public class PlayerScript : MonoBehaviour
             transform.position = new Vector2(-0.15f, -3.5f);
             currentLevel = 0;
             playerInventoryScript.Backpack.Clear(); //CAN WE EVEN CLEAR THIS?
+            
         }
         else if ((scene.name == "Level 1")) //all these extra parentheses mean that there was a reason for those parentheses but was removed
         {
@@ -277,6 +278,11 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
+            try
+            {
+                playerInventoryScript.thisLevelsBoss = GameObject.FindGameObjectWithTag("JellyKingTag").GetComponent<EnemyScript>();
+            }
+            catch { Debug.Log("There isn't a boss on this level, according to PlayerScript"); }
             //Debug.Log("Current Level is " + currentLevel);
             transform.position = database.respawnLocations[currentLevel]; //0 IS A TEMP NUMBER // We need to find a way for the player to always be oriented regardless of what the level manager does
             //the above is failing lol
