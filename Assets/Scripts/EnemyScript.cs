@@ -8,27 +8,21 @@ public class EnemyScript : MonoBehaviour
 {
     public Rigidbody2D enemyRigidBody;
     public SpriteRenderer spriteRenderer;
+    public EnemyHurtBoxScript enemyHurtBoxScript;
     public GameObject player;
-    
+
     public PlayerScript playerScript;
     public GameManagerScript gameManagerScript;
-    
+    public delegate void GivePlayerKeyAction(string keyToBeGiven);
+    public GivePlayerKeyAction OnGivePlayerKey;
+
     protected int direction = -1;
     private float enemyMoveSpeed = 1;
     private int enemyHealth = 1;
+    public int EnemyHealth { get { return enemyHealth; } protected set { enemyHealth = value; } } //why protected vs making a new private version??
     private int enemyDamage = 1;
     public int EnemyDamage { get { return enemyDamage; } private set { enemyDamage = value; } }
-    public int EnemyHealth
-    {
-        get
-        {
-            return enemyHealth;
-        }
-        set
-        {
-            enemyHealth = value;
-        }
-    }
+    
     float sineValue;
     float scale;
     public Rigidbody2D playerRigidBody;
@@ -90,14 +84,16 @@ public class EnemyScript : MonoBehaviour
         enemyMoveSpeed = enemyTypeAttributes.enemyTypeSpeed; //sets speed
         enemyDamage = enemyTypeAttributes.enemyTypeDamage;
         spriteRenderer.color = enemyTypeAttributes.enemyTypeColor; //sets colour
-
+        ConnectReferences();
     }
+
     
     //shoot
     // Update is called once per frame
     void Update()
     {
         enemyRigidBody.linearVelocity = new Vector2(enemyMoveSpeed * direction, enemyRigidBody.linearVelocityY);
+        
         //sineValue = Mathf.Sin(Time.time * 0.5f);
         //scale = 0.5f + (sineValue * sineValue); //now how does this math work? 1 is a bit of a magic number, and then we square the sign. To get a nicer bigger number that isn't negative.0.5 stops it from being zero
         //transform.localScale = new Vector3(ORIGINALLOCALSCALE.x, (ORIGINALLOCALSCALE.y * scale), ORIGINALLOCALSCALE.z);
@@ -107,6 +103,15 @@ public class EnemyScript : MonoBehaviour
 
 
     }
+    protected virtual void damageThisEnemy(int damageToBeDealt) //I suppose we can trade health if we want with the player but I don't feel like doing that right now
+    {
+        Debug.Log($"Damage to be dealt: {damageToBeDealt}");
+        Debug.Log($"Health before impact: {enemyHealth}"); //what kind of enemy health is it accessing??
+        enemyHealth -= damageToBeDealt;
+        Debug.Log($"Health after impact: {enemyHealth}");
+
+        //lol why make this protected
+    }
     public void turnAround()
     {
         direction = direction * -1; //if direction = 1, then it'll flip to -1. If direction = -1, then it'll flip to 1. Genius!\
@@ -115,9 +120,28 @@ public class EnemyScript : MonoBehaviour
         transform.localScale = localScale; 
         //above is probably the smartest math you'll see in this project, except for a sine wave or cosine here and there
     }
-    
-    
-
+    private void ConnectReferences()
+    {
+        //so you see, a lot of stuff should be moving to this in the future. why haven't I moved it yet? I like pain! sooo
+        enemyHurtBoxScript = gameObject.GetComponentInChildren<EnemyHurtBoxScript>();
+        enemyHurtBoxScript.OnThisEnemyDies += ThisEnemyDies;
+        enemyHurtBoxScript.OnDamageThisEnemy += damageThisEnemy;
+    }
+    protected virtual void ThisEnemyDies()
+    {
+        Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        try
+        {
+            enemyHurtBoxScript.OnThisEnemyDies -= ThisEnemyDies;
+        }
+        catch
+        {
+            Debug.Log("Failed to disconnect OnThisEnemyDies");
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -141,5 +165,9 @@ public class EnemyScript : MonoBehaviour
         {
             enemyRigidBody.linearVelocity = new Vector2(enemyMoveSpeed * -1, enemyRigidBody.linearVelocityY);
         }
+    }
+    private IEnumerator f()
+    {
+        yield return null;
     }
 }

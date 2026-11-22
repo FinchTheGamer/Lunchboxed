@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInventoryScript : MonoBehaviour
 {
     Key keyScript;
+    EnemyScript thisLevelsBoss;
     [SerializeField] private DatabaseScriptableObject database;
 
     private List<string> backpack = new List<string> { };
@@ -96,8 +97,18 @@ public class PlayerInventoryScript : MonoBehaviour
             Debug.Log(e);
 
         }
+        reloadBossKeyConnections();
     }
-
+    private void reloadBossKeyConnections()
+    {
+        //I know this is really really really lazy but the code for this is just going to leech off of reloadKeyConnections
+        //any time that function runs, this will too
+        try
+        {
+            thisLevelsBoss.OnGivePlayerKey += CollectAKeyHandler;
+        }
+        catch { Debug.Log("There isn't a boss in this level!"); }
+    }
     public void ReloadKeyConnections()
     {
         reloadKeyConnections(); // i have reached the pinnacle of obfuscation/wrapping/encapsulation

@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1d4013cce376545be8030f738e3304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  moveableTileSpeed: 100
+  moveableTileSpeed: 10
   changeInX: 0
   changeInY: 10
   changeInZ: 0

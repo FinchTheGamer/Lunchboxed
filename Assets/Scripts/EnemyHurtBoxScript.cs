@@ -6,7 +6,12 @@ public class EnemyHurtBoxScript : MonoBehaviour
     public GameObject enemy;
     public BoxCollider2D enemyHurtBox;
     public EnemySpawnerScript enemySpawnerScript;
+    public delegate void ThisEnemyDiesAction();
+    public ThisEnemyDiesAction OnThisEnemyDies;
+    public delegate void DamageThisEnemyAction(int damageToBeDealt);
+    public DamageThisEnemyAction OnDamageThisEnemy;
     private bool isEnemySpawnerScriptNull = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,10 +36,11 @@ public class EnemyHurtBoxScript : MonoBehaviour
         {
             if (collision.otherCollider == enemyHurtBox) //for some strange reason, "otherCollider" is OUR collider
             {
-                enemy.GetComponent<EnemyScript>().EnemyHealth--; //destroyed but I keep tryna access it?
+                CallDamageThisEnemy(1); //1 is default for now
                 if (enemy.GetComponent<EnemyScript>().EnemyHealth <= 0)
                 {
-                    Destroy(enemy); //WARNING! Enemy only tries to die the moment it hits 0
+                    // I think I want a method
+                    ThisEnemyDies(); //WARNING! Enemy only tries to die the moment it hits 0
                 }
                 
                 if (!isEnemySpawnerScriptNull)
@@ -46,5 +52,14 @@ public class EnemyHurtBoxScript : MonoBehaviour
         }
 
 
+    }
+    private void CallDamageThisEnemy(int damageToBeDealt)
+    {
+        OnDamageThisEnemy.Invoke(damageToBeDealt); //destroyed but I keep tryna access it?
+    }
+    private void ThisEnemyDies()
+    {
+        //call for the player to destroy itself
+        OnThisEnemyDies.Invoke();
     }
 }

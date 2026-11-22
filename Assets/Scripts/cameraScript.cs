@@ -22,14 +22,18 @@ public class cameraScript : MonoBehaviour
         try
         {
             disableCameraFollowPlayerFlag = GameObject.FindGameObjectWithTag("DisableCameraFollowPlayerFlagTag").GetComponent<DisableCameraFollowPlayerFlagScript>();
-            enableCameraFollowPlayerFlag = GameObject.FindGameObjectWithTag("EnableCameraFollowPlayerFlagTag").GetComponent<EnableCameraFollowPlayerFlagScript>();
+
             disableCameraFollowPlayerFlag.OnDisableCameraFollowPlayer += DisableCameraFollowPlayer;
+
+        }
+        catch { Debug.Log("Connect to disableCameraFollowPlayerFlag Failed"); }
+        
+        try
+        {
+            enableCameraFollowPlayerFlag = GameObject.FindGameObjectWithTag("EnableCameraFollowPlayerFlagTag").GetComponent<EnableCameraFollowPlayerFlagScript>();
             enableCameraFollowPlayerFlag.OnEnableCameraFollowPlayer += EnableCameraFollowPlayer;
         }
-        catch (Exception e) 
-        {
-            Debug.Log(e);
-        }
+        catch { Debug.Log("Connect to enableCameraFollowPlayerFlag Failed");  }
         
 
            

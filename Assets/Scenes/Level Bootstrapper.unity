@@ -285,9 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9094bd20b3d709843b3e6191bb7e95c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  playerDies:
-    m_PersistentCalls:
-      m_Calls: []
   perfectlySafeToReloadKeys:
     m_PersistentCalls:
       m_Calls: []

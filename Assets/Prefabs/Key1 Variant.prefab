@@ -68,6 +68,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6721680084324588435, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -9005902106304503929, guid: a68fc2ca65fdf384b9dd5d83e305d984, type: 3}
+    - target: {fileID: 6721680084324588435, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8619516510365904317, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
       propertyPath: spriteRenderer
       value: 
@@ -76,8 +84,37 @@ PrefabInstance:
       propertyPath: m_EditorClassIdentifier
       value: Assembly-CSharp::CollectableObjectScript
       objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884977697489692009, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8619516510365904317, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+    - {fileID: 7281324420655609199, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

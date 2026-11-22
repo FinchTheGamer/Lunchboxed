@@ -20,19 +20,12 @@ public class JellyKingScript : EnemyScript
     [SerializeField] private DatabaseScriptableObject database;
 
     public event Action<Vector3> SetProjectileSpeed;
+    [SerializeField] private bool DoesThisBossBestowAKey = false;
+    [SerializeField] private string KeyThisBossBestows = "00000000";
     
-    private  int  enemyHealth = 3;
-    public new int  EnemyHealth
-    {
-        get
-        {
-            return enemyHealth;
-        }
-        set
-        {
-            enemyHealth = value;
-        }
-    }
+    
+    
+    
     //public delegate void JellyKingDelegate(float moveDirectionX, float moveDirectionY, float moveDirectionZ);
     //public event JellyKingDelegate setProjectileTargetDestination;
     
@@ -60,11 +53,23 @@ public class JellyKingScript : EnemyScript
         
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        player = GameObject.FindGameObjectWithTag("PlayerTag");
         //JellyKingDelegate sendMoveDirection = (moveDirectionX,moveDirectionY,moveTowardsZ) => { }; //creates a quick lil lambda that just returns the MoveDirection
         projectileSpawnLocation = transform.Find("ProjectileSpawnLocation");
         StartCoroutine(StartJellyKingAttack()); //it can't find its own coroutine? //now it just stoppped calling the coroutine
+        ConnectReferences();
+        EnemyHealth = 3;
+        Debug.Log($"EnemyHealth = {EnemyHealth}");
         
-        
+    }
+    void Update()
+    {
+        enemyRigidBody.linearVelocity = new Vector2(enemyMoveSpeed * direction, enemyRigidBody.linearVelocityY);
+        //Debug.Log($"This boss's health is {enemyHealth}");
+        //if(enemyHealth == 1)
+        //{
+        //    Debug.Log("Bruh why are you one?");
+        //}
     }
     
     private void ShootFireBall()
@@ -83,6 +88,23 @@ public class JellyKingScript : EnemyScript
         // so this is moving, but it gets stuck moving. Instead, create an event and subscribe to the event when the newbie is created, which tells the newbie to move itself
         // MoveTowards
     }
+    protected override void damageThisEnemy(int damageToBeDealt)
+    {
+       
+        EnemyHealth -= damageToBeDealt; //why does this work? I think the method is grabbing the EnemyScript's health instead of the JellyKing's health
+        
+    }
+    private void ConnectReferences()
+    {
+        //so you see, a lot of stuff should be moving to this in the future. why haven't I moved it yet? I like pain! sooo
+        enemyHurtBoxScript = gameObject.GetComponentInChildren<EnemyHurtBoxScript>();
+        enemyHurtBoxScript.OnThisEnemyDies += ThisEnemyDies;
+        enemyHurtBoxScript.OnDamageThisEnemy += damageThisEnemy;
+    }
+    protected override void ThisEnemyDies()
+    {
+        Destroy(gameObject);
+    }
     //can't wait to build the FireBall! How will it work?
     //this is just a hook for now, so we create the fire
     private IEnumerator StartJellyKingAttack()
@@ -93,8 +115,16 @@ public class JellyKingScript : EnemyScript
             ShootFireBall();
             yield return new WaitForSeconds(2.0f);
         }
-        
     }
-    
+    private void BestowPlayerKey()
+    {
+        //player.GetComponentInChildren<PlayerInventoryScript>(); //we need to send a signal for the player to get a key
+        if (DoesThisBossBestowAKey)
+        {
+            OnGivePlayerKey?.Invoke(KeyThisBossBestows); 
+        }
+
+    }
+
 
 }
