@@ -26,9 +26,10 @@ public class ToyScript : MonoBehaviour
     PlayerScript playerScript;
     PlayerMovement playerMovementScript;
     public SpriteRenderer spriteRenderer;
-    private string apology = "I'm sorry for spilling all your coffee";
+
     void Start()
     {
+        
         originalScale = transform.localScale;
         player = GameObject.FindGameObjectWithTag("PlayerTag");
         playerScript = player.GetComponent<PlayerScript>();

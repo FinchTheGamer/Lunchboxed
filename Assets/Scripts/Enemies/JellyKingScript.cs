@@ -19,12 +19,12 @@ public class JellyKingScript : EnemyScript
     
     [SerializeField] private DatabaseScriptableObject database;
 
-    public event Action<Vector3> SetProjectileSpeed;
+    //public event Action<Vector3> SetProjectileSpeed; //Defunct
     [SerializeField] private bool DoesThisBossBestowAKey = false;
     [SerializeField] private string KeyThisBossBestows = "00000000";
 
 
-    private int enemyScore = 1000;
+    
     
     //public delegate void JellyKingDelegate(float moveDirectionX, float moveDirectionY, float moveDirectionZ);
     //public event JellyKingDelegate setProjectileTargetDestination;
@@ -59,6 +59,7 @@ public class JellyKingScript : EnemyScript
         StartCoroutine(StartJellyKingAttack()); //it can't find its own coroutine? //now it just stoppped calling the coroutine
         ConnectReferences();
         EnemyHealth = 3;
+        EnemyScore = 3;
         Debug.Log($"EnemyHealth = {EnemyHealth}");
         
     }

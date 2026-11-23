@@ -100,8 +100,43 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7281324420655609199, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2476882337661875155, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3599211222313344681}
   m_SourcePrefab: {fileID: 100100000, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+--- !u!212 &4190046620937152559 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6721680084324588435, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+  m_PrefabInstance: {fileID: 7452961914909684668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4985935600830021743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2476882337661875155, guid: 86aded26962bda345bfaf73eab73ea98, type: 3}
+  m_PrefabInstance: {fileID: 7452961914909684668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3599211222313344681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4985935600830021743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53b5642864bb2e4183413992746e525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cheese
+  type: cheese
+  typeIndex: 3
+  overrideType: 0
+  spriteRenderer: {fileID: 4190046620937152559}
+  keyScript: {fileID: 0}
+  thisCoinValue: 1
+  CollectThisCheese:
+    m_PersistentCalls:
+      m_Calls: []

@@ -50,7 +50,7 @@ public class GameOverScript : MonoBehaviour
     } //the PROBLEM IS THAT GAME IS SETTING TIMESCALE TO 0, STOPPING EVERYTHING, SO YOU SHOULD LIKE FIX THAT
     public void RunGameVictory()
     {
-        
+        gameEnds.Invoke();
         transform.position = new Vector3(playerScript.transform.position.x, playerScript.transform.position.y, -9); //ha I compressed it
         spriteRenderer.sprite = SplashScreenSpriteList[YOUWININDEX]; //i've become numb to how much time I'm spending on Terra
         spriteRenderer.enabled = true;

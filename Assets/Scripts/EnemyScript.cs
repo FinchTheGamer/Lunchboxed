@@ -22,9 +22,10 @@ public class EnemyScript : MonoBehaviour
     public int EnemyHealth { get { return enemyHealth; } protected set { enemyHealth = value; } } //why protected vs making a new private version??
     private int enemyDamage = 1;
     public int EnemyDamage { get { return enemyDamage; } private set { enemyDamage = value; } }
-    private int enemyScore = 100;
+    private int enemyScore = 1;
+    public int EnemyScore { get { return enemyScore; } protected set { enemyScore = value; } } //help I'm addicted to private set
     float sineValue;
-    float scale;
+    float scale; 
     public Rigidbody2D playerRigidBody;
     protected Vector3 localScale;
     protected Vector3 ORIGINALLOCALSCALE;

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 public class CollectableObjectScript : MonoBehaviour
@@ -9,10 +10,28 @@ public class CollectableObjectScript : MonoBehaviour
     protected Sprite[] collectibleObjectSpriteList;
     [SerializeField] private Key keyScript;
     protected GameManagerScript gameManagerScript;
-    public UnityEvent itemCollected;
+    
     private PlayerInventoryScript playerInventoryScript;
-
+    //remember the power of static delegates...
+    public delegate void ItemCollectedAction(int value);
+    public static ItemCollectedAction OnItemCollected;
+    public delegate void PowerupCollectedAction(int strength, int speed, int jump, int health, float duration);
+    public static PowerupCollectedAction OnPowerupCollected;
+    public struct PowerupBenefits
+    {
+        public int strength, speed, jump, health;
+        public PowerupBenefits(int st, int sp, int j, int h)
+        {
+            strength = st;
+            speed = sp;
+            jump = j;
+            health = h;
+        }
+    }
+    protected PowerupBenefits thisPowerupsBenefits = new PowerupBenefits(0,0,0,0); //duration not included
+    protected float lengthThisPowerUpLasts = 10f;
     float sine;
+    [SerializeField] int thisCoinValue = 1;
    
     private Vector3 SITTINGPOSITION;
     public string Type
@@ -20,7 +39,7 @@ public class CollectableObjectScript : MonoBehaviour
         get { return type; }
         set { type = value; }
     }
-    public int TypeIndex
+    public int TypeIndex //why not just make this a public int?
     {
         get { return typeIndex; }
         set { typeIndex = value; }
@@ -32,7 +51,8 @@ public class CollectableObjectScript : MonoBehaviour
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         playerInventoryScript = GameObject.FindGameObjectWithTag("PlayerInventoryTag").GetComponent<PlayerInventoryScript>();
         //itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); don't need this anymore
-        itemCollected.AddListener(playerInventoryScript.CollectCoin); //this is all going to have to be rewritten to add different coin denominations...
+        //itemCollected.AddListener(playerInventoryScript.CollectCoin); //this is all going to have to be rewritten to add different coin denominations...
+        //I love hoarding garbage code
         //Wait it won't! Because GAME can just get the player coin count alone!
         //okay so this will ping the player to collect a coin, and that will tell the game manager to update the script
         //wouldn't it be kind of expensive to do it this way?
@@ -45,6 +65,7 @@ public class CollectableObjectScript : MonoBehaviour
         {
             type = "Coin";
             typeIndex = 1;
+            thisCoinValue = 1;
         }
         setSpriteViaIndex(typeIndex);
     }
@@ -74,13 +95,20 @@ public class CollectableObjectScript : MonoBehaviour
     }
     protected virtual void collectThisItem()
     {
-        itemCollected.Invoke();
+        OnItemCollected.Invoke(thisCoinValue);
         gameObject.SetActive(false);
         //so we invoke item collected
         //Its like changing a linked list in a way
         //this invoke needs to point to a different method and the subscriber method needs to listen to a different invoke
         //that's kinda cool
         //and afterwards, run away
+    }
+    protected virtual void CollectThisPowerup() //this method is kind of a stump
+    {
+        //so we have to pass something different to the player?
+        //how can we make this work... let's do this one step at a time!
+        OnPowerupCollected.Invoke(thisPowerupsBenefits.strength, thisPowerupsBenefits.speed, thisPowerupsBenefits.jump, thisPowerupsBenefits.health, lengthThisPowerUpLasts);
+        // the above is getting a null? Oh I forgot to connect it lol
     }
     protected void setSpriteViaIndex(int spriteIndex)
     {

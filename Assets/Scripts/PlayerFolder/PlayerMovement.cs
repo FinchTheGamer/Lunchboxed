@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
     public float PlayerDirection { get { return playerDirection; } private set { playerDirection = value; } }
     private int jumpStrength;
     private int speed;
+    public int JumpStrength { get { return jumpStrength; } set { jumpStrength = value; } }
+    public int Speed { get { return speed; } set { speed = value; } }
 
     //decoupled code!
     

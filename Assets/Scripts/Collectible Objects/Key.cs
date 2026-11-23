@@ -15,7 +15,7 @@ public class Key : CollectableObjectScript
         KeyDelegate returnKeyData = (thisKey) => { };
 
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
-        itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); // change this //why
+        //itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); // change this //why
 
 
         collectibleObjectSpriteList = database.CollectibleObjectSpriteDatabase; //this loads in all of them! Be careful! This is nowhere near best practice

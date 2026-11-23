@@ -17,7 +17,7 @@ public class GameManagerScript : MonoBehaviour
     private GameObject player;
     private Text LivesText;
     private Text coinCount;
-    private int lives = 3;
+    
     private int bonusScore = 0;
     private bool isStartScreen = true;
     //public GameObject TurnFlag; //why should I be spawning turnflags?
@@ -41,6 +41,7 @@ public class GameManagerScript : MonoBehaviour
         if (!((SceneManager.GetActiveScene().name == "Level Select") || (SceneManager.GetActiveScene().name == "Level Bootstrapper"))) //bro I hard coded
         {
             isStartScreen = false;
+            Debug.Log(isStartScreen);
             ConnectReferences();
             OnFirstLevel();
         }

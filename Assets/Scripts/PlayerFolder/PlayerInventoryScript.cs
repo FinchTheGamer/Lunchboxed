@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,7 +15,11 @@ public class PlayerInventoryScript : MonoBehaviour
     public List<string> Backpack { get { return backpack; } }
     public delegate void CollectACoinAction();
     public event CollectACoinAction OnCollectACoin;
-
+    private PlayerScript playerScript;
+    private PlayerMovement playerMovementScript;
+    /*I was going to make a delegate to just update the player stats when a power up is used. I'm so sorry for coupling the code, but because health should be in the player...
+      I decided to forgo it and just grab it
+    */
     //crazy concept, but I think the PlayerInventory should control the CoinCount...
     //I'm not sure how many problems that'll cause, but that's okay, because I don't care!
     private int playerCoins = 0;
@@ -23,6 +28,9 @@ public class PlayerInventoryScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerScript = transform.parent.gameObject.GetComponent<PlayerScript>();
+        playerMovementScript = playerScript.gameObject.GetComponentInChildren<PlayerMovement>();
+        CollectableObjectScript.OnPowerupCollected += CollectAPowerup;
 
         if ((SceneManager.GetActiveScene().name != "Level Select") && (SceneManager.GetActiveScene().name != "Level Bootstrapper"))
         {
@@ -30,20 +38,50 @@ public class PlayerInventoryScript : MonoBehaviour
             keyScript = GameObject.FindGameObjectWithTag("KeyTag").GetComponent<Key>();
             keyScript.keyCollected += CollectAKeyHandler;
         }
-        
-        
+        CollectableObjectScript.OnItemCollected += CollectCoin;
+
+
+
     }
     void OnDisable()
     {
         keyScript.keyCollected -= CollectAKeyHandler; //brooo am I even connected
         //when disabled... when is it disabled??
     }
-    public void CollectCoin()
+    public void CollectCoin(int valueOfCoin)
     {
-        PlayerCoins = PlayerCoins + 1; //I love private set //I could use PlayerCoins++ but I don't want to
+        PlayerCoins += valueOfCoin; //I love private set 
         Debug.Log("Player Inventory says that PlayerCoins is " + PlayerCoins.ToString());
         OnCollectACoin.Invoke();
+        
+    } 
+    public void CollectAPowerup(int st, int sp, int j, int h, float dur) 
+    {
+        //I love
+        StartCoroutine(collectAPowerup(st, sp, j, h, dur)); 
+        //Encapsulation
     }
+    private IEnumerator collectAPowerup(int st, int sp, int j, int h, float duration) //so indescriptive...
+    {
+        int ORIGINALSTRENGTH = 1; //temp imaginary number
+        int ORIGINALSPEED = playerMovementScript.Speed; //I love wasting memory
+        int ORIGINALJUMP = playerMovementScript.JumpStrength;
+        //we don't need to reset health
+
+        //strength isn't applicable yet...
+        playerMovementScript.
+        Speed += sp; //why can I type it likes this brooo
+        playerMovementScript.JumpStrength += j;
+        playerScript.Lives += h;
+        //yield return new WaitForSeconds(0.1f); //no clue why we have to return 0 but like... ignore it
+        yield return new WaitForSeconds(duration);
+        //strength isn't here yet
+        playerMovementScript.Speed = ORIGINALSPEED;
+        playerMovementScript.JumpStrength = ORIGINALJUMP;
+        
+    }
+    
+    
     private void CollectAKeyHandler(string txt)
     {
         //txt should be the key so

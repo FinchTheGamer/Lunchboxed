@@ -213,7 +213,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.layer == 7 && collision.collider.gameObject.CompareTag("EnemyHurtBoxTag"))
         {
             //we hit an enemy! victory!
-            EnemiesStomped++;
+            EnemiesStomped += collision.gameObject.GetComponent<EnemyScript>().EnemyScore;
             playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocityX, 5);
         }
         
@@ -248,7 +248,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (collision.gameObject.layer == 7 && collision.collider.gameObject.CompareTag("EnemyHurtBoxTag"))
         {
-            EnemiesStomped++;
+            EnemiesStomped += collision.gameObject.GetComponent<EnemyScript>().EnemyScore;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
