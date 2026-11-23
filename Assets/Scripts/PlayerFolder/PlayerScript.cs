@@ -220,7 +220,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log($"I am in contact with {collision.gameObject}");
+        
         isTouchingGround = ((collision.gameObject.layer == 6)); //hmm... how often should this run? I don't want to force isTouchingGround to constantly flip!
         //THEN AGAIN
         if (isTouchingGround)

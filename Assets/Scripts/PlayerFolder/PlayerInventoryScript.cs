@@ -76,6 +76,7 @@ public class PlayerInventoryScript : MonoBehaviour
         //yield return new WaitForSeconds(0.1f); //no clue why we have to return 0 but like... ignore it
         yield return new WaitForSeconds(duration);
         //strength isn't here yet
+
         playerMovementScript.Speed = ORIGINALSPEED;
         playerMovementScript.JumpStrength = ORIGINALJUMP;
         

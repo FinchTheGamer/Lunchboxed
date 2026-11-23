@@ -108,6 +108,7 @@ public class CollectableObjectScript : MonoBehaviour
         //so we have to pass something different to the player?
         //how can we make this work... let's do this one step at a time!
         OnPowerupCollected.Invoke(thisPowerupsBenefits.strength, thisPowerupsBenefits.speed, thisPowerupsBenefits.jump, thisPowerupsBenefits.health, lengthThisPowerUpLasts);
+        gameObject.SetActive(false);
         // the above is getting a null? Oh I forgot to connect it lol
     }
     protected void setSpriteViaIndex(int spriteIndex)

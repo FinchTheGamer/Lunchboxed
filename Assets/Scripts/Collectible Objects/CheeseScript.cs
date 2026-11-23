@@ -24,6 +24,7 @@ public class Cheese : CollectableObjectScript
     {
         // I think this just calls the normal collectThisItem
         base.CollectThisPowerup();
+
         
     }
     
