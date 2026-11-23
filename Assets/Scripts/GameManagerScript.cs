@@ -16,10 +16,11 @@ public class GameManagerScript : MonoBehaviour
     private BoxCollider2D attackHitBoxCollider2D;
     private GameObject player;
     private Text LivesText;
-    private Text coinCount;
+    private Text coinCount; //we need to update the bonusScore sometimes
     
     private int bonusScore = 0;
     private bool isStartScreen = true;
+    private Scene lastScene;
     //public GameObject TurnFlag; //why should I be spawning turnflags?
 
     public UnityEvent perfectlySafeToReloadKeys;
@@ -33,7 +34,7 @@ public class GameManagerScript : MonoBehaviour
         //DEBUG 
         Coins = 0;
         //DEBUG
-
+        lastScene = SceneManager.GetActiveScene();
 
         DontDestroyOnLoad(gameObject);
         Debug.Log("Will we run the first level?");
@@ -133,9 +134,18 @@ public class GameManagerScript : MonoBehaviour
             isStartScreen = false;
             ConnectReferences();
             OnFirstLevel();
+            int x = 1;
+            
+            if (!(lastScene.name == "Level Select"))
+            {
+                bonusScore += (100/x/x/x); //bonus score for winning more levels
+                //ha see I can do math as well
+                Debug.Log("Bonus score distributed");
+            }
         }
         safeToReloadKeys();
         //someone is reloadeding the player to the first scene... ah  I see its that OnFirstLevel thing
+        lastScene = scene;
     }
     private void safeToReloadKeys()
     {
@@ -160,10 +170,7 @@ public class GameManagerScript : MonoBehaviour
         //its been a while since I've touched this code.
 
     }
-    //public void PlayerTakesDamage()
-    //{
-    //    playerScript.Lives--;
-    //}
+    //old code gone
     public void WinGame()
     {
         Debug.Log("You win!");
@@ -199,8 +206,11 @@ public class GameManagerScript : MonoBehaviour
     }
     private void OnDestroy()
     {
+        Debug.Log(playerScript == null);
+        
         playerScript.OnSetLiveCount -= UpdateLiveCount;
         playerInventoryScript.OnCollectACoin -= PlayerGetsACoin;
+        
     }
     public int GetPlayerCoinCount()
     {
@@ -209,6 +219,7 @@ public class GameManagerScript : MonoBehaviour
     public int GetPlayerEnemiesStomped()
     {
         return playerScript.EnemiesStomped;
+        //enmies stomped returned
     }
     public int GetPlayerPowerupsCollected()
     {
@@ -217,8 +228,10 @@ public class GameManagerScript : MonoBehaviour
     }
     public int GetPlayerBonusScore()
     {
-        return bonusScore;
+        return bonusScore; // what does the triple  /// mean?
+        //some games have a bonus score, so I felt that  having one as well  could be useful for
+        //some kind of timer feature where a faster time would grant more score? I don't know
     }
-    
+
 }
     

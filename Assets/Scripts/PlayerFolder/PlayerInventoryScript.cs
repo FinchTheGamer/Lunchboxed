@@ -63,7 +63,7 @@ public class PlayerInventoryScript : MonoBehaviour
     }
     private IEnumerator collectAPowerup(int st, int sp, int j, int h, float duration) //so indescriptive...
     {
-        int ORIGINALSTRENGTH = 1; //temp imaginary number
+        int ORIGINALSTRENGTH = playerScript.Damage; 
         int ORIGINALSPEED = playerMovementScript.Speed; //I love wasting memory
         int ORIGINALJUMP = playerMovementScript.JumpStrength;
         //we don't need to reset health
@@ -76,7 +76,7 @@ public class PlayerInventoryScript : MonoBehaviour
         //yield return new WaitForSeconds(0.1f); //no clue why we have to return 0 but like... ignore it
         yield return new WaitForSeconds(duration);
         //strength isn't here yet
-
+        playerScript.Damage = ORIGINALSTRENGTH;
         playerMovementScript.Speed = ORIGINALSPEED;
         playerMovementScript.JumpStrength = ORIGINALJUMP;
         
@@ -88,6 +88,7 @@ public class PlayerInventoryScript : MonoBehaviour
         //txt should be the key so
         //either this isn't receiving or the sender isn't transmitting...
         Debug.Log("Key I just got: " + txt);
+        
         backpack.Add(txt);
     }
     private void reloadKeyConnections()
@@ -96,9 +97,10 @@ public class PlayerInventoryScript : MonoBehaviour
         {
 
 
-            Debug.Log("Current scene = " + SceneManager.GetActiveScene().name); // at least it correctly knows the scene!
+            Debug.Log($"Current scene = {SceneManager.GetActiveScene().name}"); // at least it correctly knows the scene!
             Debug.Log("Attempting to reload key connections now!");
             Key PREVIOUSKEY = keyScript;
+            Debug.Log(PREVIOUSKEY);
 
             //null means the tag exists, but no one in the scene has it
 
@@ -130,7 +132,7 @@ public class PlayerInventoryScript : MonoBehaviour
             //gosh darn these keys are failing again
             //PREVIOUSKEY.keyCollected -= CollectAKeyHandler; //risque? I could but I don't want to so I won't
 
-            keyScript.keyCollected += CollectAKeyHandler;
+            keyScript.keyCollected += CollectAKeyHandler; //disconnect when?? //oh my goodness I could have subscribed to a big method
             Debug.Log("Key Connections Reloaded!");
             Debug.Log(keyScript.name + " connected!");
         }
@@ -148,7 +150,7 @@ public class PlayerInventoryScript : MonoBehaviour
         try
         {
             thisLevelsBoss.OnGivePlayerKey += CollectAKeyHandler;
-            Debug.Log("sooowr soowr");
+            Debug.Log($"This level's boss is {thisLevelsBoss}");
         }
         catch { Debug.Log("There isn't a boss in this level!"); } //it appears there isn't a boss in this level
     }

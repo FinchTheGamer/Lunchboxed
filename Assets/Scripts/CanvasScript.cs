@@ -18,7 +18,7 @@ public class CanvasScript : MonoBehaviour
 
     
     
-    
+    //my brother is blasting music so much bro
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

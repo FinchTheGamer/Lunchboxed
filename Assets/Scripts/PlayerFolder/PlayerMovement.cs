@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingGround = false;
     
     private float playerDirection; //is the latter really necessary?
+    private bool doesPlayerWantToJump = false;
 
     public float PlayerDirection { get { return playerDirection; } private set { playerDirection = value; } }
     private int jumpStrength;
@@ -67,18 +68,27 @@ public class PlayerMovement : MonoBehaviour
         MovementHandler();
         
     }
+    //man this class is getting bloated
     private void OnDestroy() //could do this for OnDisable, don't feel like it
     {
         Player.GetComponent<PlayerScript>().ReturnRecoil -= Recoil;
+        try
+        {
+            DisconnectPlayerControllerReferences();
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"Failed to disconnect to player controller! Why? Because {e}");
+        }
     }
     private void MovementHandler()
     {
         isTouchingGround = playerScript.IsTouchingGround;
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && isTouchingGround)
+        if (doesPlayerWantToJump && isTouchingGround) //I tthink that is easier to see on someone else's end
         {
             characterRigidBody.linearVelocity = new Vector2(0, 1) * jumpStrength; //setting this value equal to a vector will be different to adding a vectory onto the value
         }
-        playerDirection = Input.GetAxis("Horizontal");
+        //playerDirection = Input.GetAxis("Horizontal");
 
         characterRigidBody.linearVelocity = new Vector2(playerDirection * speed, characterRigidBody.linearVelocityY);
 
@@ -116,19 +126,42 @@ public class PlayerMovement : MonoBehaviour
         playerAnimatorScript = Player.GetComponentInChildren<PlayerAnimatorScript>();
         playerControllerScript = Player.GetComponentInChildren<PlayerControllerScript>();
         Player.GetComponent<PlayerScript>().ReturnRecoil += Recoil;
-        //oh shoot so when I broad cast the message...
+        ConnectPlayerControllerReferences();
+        
+    }
+    private void ConnectPlayerControllerReferences()
+    {
+        playerControllerScript.OnLeftRightMovementInput += UpdatePlayerDirection;
+        playerControllerScript.OnJumpMovementInput += UpdatePlayerWantsToJump;
+    }
+    private void DisconnectPlayerControllerReferences()
+    {
+        playerControllerScript.OnLeftRightMovementInput -= UpdatePlayerDirection;
+        playerControllerScript.OnJumpMovementInput -= UpdatePlayerWantsToJump;
+    }
+    private void UpdatePlayerDirection(float dir)
+    {
+        //this'll only be fired when it is updated
+        playerDirection = dir;
+    }
+    private void UpdatePlayerWantsToJump(bool doThey)
+    {
+        doesPlayerWantToJump = doThey;
     }
     private void recoil(Vector3 positionOfObjectThatYouHit)
     {
         float differenceOfX = (transform.position.x - positionOfObjectThatYouHit.x) * -1; //let's say we are at 90 and they are at 85. That means they are on our left, and this returns -5
         float differenceOfY = (transform.position.y - positionOfObjectThatYouHit.y) * -1;
-        float differenceOfZ = (transform.position.z - positionOfObjectThatYouHit.z) * -1; // I've reversed the directions to hopefully make it more intuitive
-                                                                                          //can we remove the difference of this? perhaps renaming would actually be better.
+        float differenceOfZ = (transform.position.z - positionOfObjectThatYouHit.z) * -1; // I've reversed the directions to hopefully make it more intuit
+        //can we remove the difference of this? perhaps renaming would actually be better.
         Vector3 directionOfImpact = new Vector3(differenceOfX, differenceOfY, differenceOfZ); //so if the impact came from the north west, it'll be positive, negative, zero
         Debug.Log(directionOfImpact.ToString() + " from recoil");
         //bool isDirectionOfImpactRight = differenceOfX > 0; // so by our example, this should be false
         //bool isDirectionOfImpactUp = differenceOfY > 0;
         //bool isDirectionOfImpactForward = differenceOfZ > 0;
+        //hmm.... can we simplify that code at all?
+        //how can we calculate the angle between two things?
+
         //first the x coordinate
         if (differenceOfX > 0)
         {

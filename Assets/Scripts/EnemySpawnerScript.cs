@@ -55,7 +55,7 @@ public class EnemySpawnerScript : MonoBehaviour
 
     }
 
-    [ContextMenu("spawnEnemy")] private void DebugSpawnEnemy()
+    [ContextMenu("spawnEnemy")] private void DebugSpawnEnemy() //does it need to be public or private or protected?
     {
         spawnEnemy(transform.position.x, transform.position.y);
     }
@@ -74,5 +74,37 @@ public class EnemySpawnerScript : MonoBehaviour
             isThereSomethingInMySpawnZone = false;
         }
     }
-    
+    //below I think we'll have some procedural generation methods:
+    [ContextMenu("SpawnEnemiesInLine")] public void ProcedureGenerateEnemiesLine(Vector3 beginning, Vector3 end, float step)
+    {
+        //this is going to generate enemies on a line
+        //first, calculate the distance between the two
+        Vector3 distance = end - beginning; //that'll probably work..
+        float distanceFloat = Vector3.Distance(beginning, end);
+        float stepLength = distanceFloat / step; //why do we divide? what does a modulo do?
+        bool shouldEnd = false;
+        Vector3 counter = beginning;
+        while (shouldEnd == false)
+        {
+            spawnEnemy(counter.x, counter.y);
+            counter = new Vector3(counter.x + step, counter.y + step, counter.z + step);
+            Debug.Log($"Step equals {step}");
+            Debug.Log($"Counter equals {counter}");
+            if (Vector3.Distance(end, counter) < stepLength)
+            {
+                shouldEnd = true;
+            }
+        }
+
+        spawnEnemy(beginning.x, beginning.y);
+    }
+    //ugh I don't get how to spawn these sooooo
+    private void ProcedureGenerateEnemiesCircle(Vector3 beginning, float r, float step)
+    {
+        //do we grab the circle???
+        
+        //we can nonot do math in here like i'm used to so I don't even know what to do
+    }
+    //I cannot figure out the circle code
+    //how will we iterate on the circle
 }

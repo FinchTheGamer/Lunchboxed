@@ -16,6 +16,7 @@ public class Key : CollectableObjectScript
 
         gameManagerScript = GameObject.FindGameObjectWithTag("GAMETag").GetComponent<GameManagerScript>();
         //itemCollected.AddListener(gameManagerScript.PlayerGetsACoin); // change this //why
+        //I just found out about the ability to use $  
 
 
         collectibleObjectSpriteList = database.CollectibleObjectSpriteDatabase; //this loads in all of them! Be careful! This is nowhere near best practice
@@ -44,6 +45,7 @@ public class Key : CollectableObjectScript
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collectThisItem();
+        //Debug.Log("I was hit?);
     }
 
     protected override void collectThisItem()

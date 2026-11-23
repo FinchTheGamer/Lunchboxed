@@ -74,7 +74,7 @@ public class PlayerScript : MonoBehaviour
         get { return lives; }
         set { lives = value; if (value < 1) { lives = 0; } } // I could do something funny here and make lives equal abs(lives)
     } //doesn't work that bad at all!
-    
+    public int Damage { get; set; } = 1;
     private void recoil(Vector3 locationOfEnemy)
     {
         ReturnRecoil?.Invoke(locationOfEnemy); //doesn't throw a fit if its null

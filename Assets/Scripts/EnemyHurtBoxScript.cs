@@ -21,7 +21,7 @@ public class EnemyHurtBoxScript : MonoBehaviour
         }
         catch(NullReferenceException e) // I don't need to save e, but its fun
         {
-            Debug.Log(e);
+            Debug.Log($"Error! Something went wrong! What exactly went wrong? Its a bit of a long story, but essentially {e}");
             isEnemySpawnerScriptNull = true;
         }
         enemy = gameObject.transform.parent.gameObject; //let's just get our parent
@@ -36,7 +36,7 @@ public class EnemyHurtBoxScript : MonoBehaviour
         {
             if (collision.otherCollider == enemyHurtBox) //for some strange reason, "otherCollider" is OUR collider
             {
-                CallDamageThisEnemy(1); //1 is default for now
+                CallDamageThisEnemy(collision.gameObject.GetComponent<PlayerScript>().Damage); 
                 if (enemy.GetComponent<EnemyScript>().EnemyHealth <= 0)
                 {
                     // I think I want a method
@@ -56,10 +56,12 @@ public class EnemyHurtBoxScript : MonoBehaviour
     private void CallDamageThisEnemy(int damageToBeDealt)
     {
         OnDamageThisEnemy.Invoke(damageToBeDealt); //destroyed but I keep tryna access it?
+        Debug.Log(damageToBeDealt);
     }
     private void ThisEnemyDies()
     {
         //call for the player to destroy itself
         OnThisEnemyDies.Invoke();
+        //Debug.Log("This enemy died! Bleh!");
     }
 }
